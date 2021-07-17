@@ -18,10 +18,10 @@ public class GridView : MonoBehaviour
 
     public void Update()
     {
+        /*
         if(Input.GetKeyDown(KeyCode.E))
         {
             ExpandGrid(new Vector2(-10,-10));
-            print("grid");
         }
         if(Input.GetKeyDown(KeyCode.R))
         {
@@ -32,6 +32,7 @@ public class GridView : MonoBehaviour
             GameObject testBuilding = GameObject.Find("TestBuilding");
             PlaceObject(Vector2.zero, testBuilding);
         }
+        */
     }
 
     public void PlaceObject(Vector2 gridPos, GameObject obj)
@@ -40,11 +41,24 @@ public class GridView : MonoBehaviour
         obj.transform.position = new Vector3(   placePosition.x,
                                                 0,
                                                 placePosition.y);
+        obj.transform.rotation = Quaternion.identity;
     }
 
-    public void DeleteObject(Vector2 pos)
+    public void DeleteObject(Vector2 gridPos)
     {
-
+        Vector2 deletePosition = ReferencePoint + gridPos * CellSizeInUnits;
+        Collider[] items = Physics.OverlapSphere((Vector3)deletePosition, CellSizeInUnits * 0.75f);
+        if(items.Length > 0)
+        {
+            if(items.Length == 1)
+            {
+                Destroy(items[0].gameObject);
+            }
+            else
+            {
+                print("Two Items in one cell on coordinates:" + gridPos);
+            }
+        }
     }
     
     public void ExpandGrid(Vector2 expansion)

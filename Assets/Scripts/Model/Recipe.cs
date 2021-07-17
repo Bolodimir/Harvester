@@ -2,17 +2,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Recipe : MonoBehaviour
+public class Recipe
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    Building building;
+    Resource[] Input;
+    Resource Output;
+    float TimeToProduce;
+    float TimeInProduction;
+    float ProductionProgress; // [0;1]    
 
-    // Update is called once per frame
-    void Update()
+    public Recipe(Resource[] input, Resource output, float TTP)
     {
-        
+        Input = new Resource[input.Length];
+        for(int i = 0; i < input.Length; i++)
+        {
+            Input[i] = input[i];
+        }
+
+        Output = output;
+        TimeToProduce = TTP;
+    }
+    public bool StartProduction()
+    {
+        for(int i = 0; i < Input.Length; i++)
+        {
+            if(Stats.Instance.Check(Input[i].Name, Input[i].Number))
+            {
+                continue;
+            }
+            return false;
+        }
+        for (int i = 0; i < Input.Length; i++)
+        {
+            Stats.Instance.Withdraw(Input[i].Name, Input[i].Number);
+            UpdateProduction(0);
+        }
+        // Add to the list of active recipies
+        return true;
+    }    
+    public void UpdateProduction(float deltaTime)
+    {
+        TimeInProduction += deltaTime;
+        ProductionProgress = TimeInProduction / TimeToProduce;
+        if(ProductionProgress >= 1)
+        {
+            FinishProduction();
+        }
+    }
+    public void FinishProduction()
+    {
+        if(Stats.Instance.Deposit(Output.Name, Output.Number))
+        {
+            return;
+        }
+        else
+        {
+            Stats.Instance.AddResource(Output.Name, Output.Number);
+        }
     }
 }

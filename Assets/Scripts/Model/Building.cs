@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building
+public class Building : MapItem
 {
-    private Recipe recipies;
-    private float CurRecipeProgress; //[0;1]
+    [SerializeField] Resource[] Cost;
+    [SerializeField] private Recipe[] recipies;
+    Recipe CurrentRecipe;
 
     public void StartRecipe()
     {
 
+    }
+
+    public void Delete()
+    {
+        
     }
 }

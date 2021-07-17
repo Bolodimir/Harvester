@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Resource : MonoBehaviour
+public struct Resource
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public string Name { get; set; }
+    public int Number { get; set; }
+
+    public Resource(string Name, int Number)
+    {        
+        this.Name = Name;
+        this.Number = Number;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
