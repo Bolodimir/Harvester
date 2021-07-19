@@ -24,7 +24,7 @@ public class CameraBehaviour : MonoBehaviour
     private float LastTouchUpdateTime;
 
     Touch oldTouch;
-    bool hasMoved;    
+    bool hasMoved;
 
     public void Start()
     {
@@ -36,7 +36,10 @@ public class CameraBehaviour : MonoBehaviour
 
     public void Update()
     {
+
         if (Input.touchCount == 0) SpeedUpdate();
+
+        if (ControlsLocked) return;
 
         if(Input.touchCount == 1)
         {
@@ -162,12 +165,12 @@ public class CameraBehaviour : MonoBehaviour
 
     public void LockControls()
     {
-
+        ControlsLocked = true;
     }
 
     public void UnLockControls()
     {
-
+        ControlsLocked = false;
     }
 
 }

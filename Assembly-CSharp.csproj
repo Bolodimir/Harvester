@@ -73,6 +73,11 @@
     <Compile Include="Assets\Scripts\Model\MapItem.cs" />
     <Compile Include="Assets\Scripts\View\ViewToModel.cs" />
     <Compile Include="Assets\Scripts\View\CameraBehaviour.cs" />
+    <Compile Include="Assets\Scripts\View\BuildMenu.cs" />
+    <Compile Include="Assets\Scripts\View\GeneralMenu.cs" />
+    <Compile Include="Assets\Scripts\View\BackgroundCatcher.cs" />
+    <Compile Include="Assets\Scripts\View\UICatcher.cs" />
+    <Compile Include="Assets\Scripts\View\BuildingMode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
