@@ -149,7 +149,7 @@ public class CameraBehaviour : MonoBehaviour
         return direction;
     }
 
-    private Vector3 GetPlanePointFromScreenPoint(Vector2 ScreenPoint)
+    public Vector3 GetPlanePointFromScreenPoint(Vector2 ScreenPoint)
     {
         Ray FromCamera = MainCamera.ScreenPointToRay(ScreenPoint);
         if (PlaneForInterception.Raycast(FromCamera, out float DistanceToPlane))

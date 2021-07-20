@@ -11,7 +11,7 @@ public class GridModel : MonoBehaviour
 
     void Start()
     {
-        
+        Map = new MapItem[10,10];
     }
 
     void Update()
@@ -19,9 +19,10 @@ public class GridModel : MonoBehaviour
 
     }
 
-    public void CheckCell(Vector2 position)
+    public bool CellIsEmpty(Vector2 position)
     {
-
+        if (Map[(int)position.x, (int)position.y] == null) return true;
+        return false;
     }
     public void BuildItem(string Name, Vector2 pos)
     {
@@ -31,7 +32,24 @@ public class GridModel : MonoBehaviour
             {
                 GameObject newBuild = Instantiate(MapItems[i]);
                 view.PlaceObject(pos, newBuild);
+                Map[(int)pos.x, (int)pos.y] = newBuild.GetComponent<MapItem>();
             }
         }
+    }
+    public GameObject GetItem(string Name)
+    {
+        for (int i = 0; i < MapItems.Length; i++)
+        {
+            if (MapItems[i].GetComponent<MapItem>().Name == Name)
+            {
+                return MapItems[i];
+            }
+        }
+        return null;
+    }
+    public bool WithinBoundaries(Vector2 gridPos)
+    {
+        if (gridPos.x >= 0 && gridPos.x < Map.GetLength(0) && gridPos.y >= 0 && gridPos.y < Map.GetLength(1)) return true;
+        else return false;
     }
 }

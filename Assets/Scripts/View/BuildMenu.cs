@@ -5,9 +5,11 @@ using UnityEngine;
 public class BuildMenu : MonoBehaviour
 {
     UIController Controller;
+    [SerializeField] GridView view;
     public void OnBuildButtonClick()
     {
         Controller.UIclick();
+        view.InitiateBuildingForPlacing("Forge");
     }
     public void OnBackButtonClick()
     {
@@ -21,6 +23,6 @@ public class BuildMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        print("enable");
+
     }
 }

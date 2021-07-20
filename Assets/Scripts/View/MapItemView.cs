@@ -12,15 +12,12 @@ public class MapItemView : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            OnPressed();
-        }
+
     }
 
     public void OnPressed()
     {
-        controller.OpenItemMenu();
+
     }
 
     public void Select()
