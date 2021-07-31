@@ -10,7 +10,7 @@ public class GeneralMenu : MonoBehaviour
     public void OnResearchButtonClick()
     {
         Controller.UIclick();
-        FindObjectOfType<GridModel>().ExpandGrid(new Vector2(4, 4));
+        FindObjectOfType<GridModel>().ExpandGrid(new Vector2(-10,0 ));
     }
     public void OnResourceButtonClick()
     {

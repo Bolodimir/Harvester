@@ -52,10 +52,44 @@ public class GridView : MonoBehaviour
         }
         else
         {
-            print("Two Items in one cell on coordinates:" + gridPos);
+            if(items.Length > 1)
+            {
+                print("Two Items in one cell on coordinates:" + gridPos);
+            }
+            else
+            {
+                print("Nothing in the cell on coordinates:" + gridPos);
+            }
         }
         
-    }    
+    }
+    public void DeleteObject(Vector3 deletePosition)
+    {
+        Vector2 gridPos = FromWorldToGrid(deletePosition);
+        Collider[] items = Physics.OverlapSphere((Vector3)deletePosition, CellSizeInUnits * 0.375f);
+
+        if (items.Length == 1)
+        {
+            Destroy(items[0].gameObject);
+            model.DestroyBuilding(gridPos);
+        }
+        else
+        {
+            if (items.Length > 1)
+            {
+                print("Two Items in one cell on coordinates:" + deletePosition);
+                foreach(Collider item in items)
+                {
+                    print(item.name + "  -  " + item.transform.position);
+                }
+            }
+            else
+            {
+                print("Nothing in the cell on coordinates:" + deletePosition);
+            }
+        }
+
+    }
     public void ExpandGrid(Vector2 expansion)
     {
         Field.transform.localScale = new Vector3(Field.transform.localScale.x + Mathf.Abs(expansion.x) * CellSizeInUnits,
@@ -66,8 +100,8 @@ public class GridView : MonoBehaviour
                                                 Field.transform.position.y,
                                                 Field.transform.position.z + expansion.y * CellSizeInUnits / 2);
 
-        Height += Mathf.Abs(expansion.x) * CellSizeInUnits;
-        Width += Mathf.Abs(expansion.y) * CellSizeInUnits;
+        Width += Mathf.Abs(expansion.x) * CellSizeInUnits;
+        Height += Mathf.Abs(expansion.y) * CellSizeInUnits;
 
         CalculateReferencePoint();
     }
@@ -75,6 +109,10 @@ public class GridView : MonoBehaviour
     {
         ReferencePoint = new Vector2(Field.transform.position.x - Width / 2,
                                      Field.transform.position.z + Height / 2);
+    }
+    public float GetSize()
+    {
+        return CellSizeInUnits;
     }
     private Vector3 FromGridToWorld(Vector2 pos)
     {

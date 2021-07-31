@@ -72,9 +72,8 @@ public class CameraBehaviour : MonoBehaviour
                     RaycastHit hit = new RaycastHit();
                     if(Physics.Raycast(FromCamera,out hit))
                     {
-                        hit.transform.GetComponent<MapItemView>().OnPressed();
+                        hit.transform.GetComponent<RaycastTarget>().OnPressed();
                     }
-
                 }
                 else
                 {                    

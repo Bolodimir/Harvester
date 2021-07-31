@@ -6,25 +6,26 @@ public class Consumable : MapItem
 {
     [SerializeField] int HP;
     [SerializeField] Resource Loot;
+
+    GridView view;
     public void GetDamage()
     {
         HP--;
-        if(HP == 0)
+        if (HP == 0)
         {
             if (!Stats.Instance.Deposit(Loot))
             {
                 Stats.Instance.AddResource(Loot);
             }
-            Destroy(gameObject);
+            view.DeleteObject(transform.position);
         }
-    }
-
-    public void Delete()
-    {
-
     }
     public override void Action()
     {
         GetDamage();
+    }
+    public void SetView(GridView view)
+    {
+        this.view = view;
     }
 }

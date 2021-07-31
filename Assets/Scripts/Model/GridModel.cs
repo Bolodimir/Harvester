@@ -12,10 +12,12 @@ public class GridModel : MonoBehaviour
     [SerializeField] float RandomResourcePlacingPeriod;
 
     float LastPlaced;
+    int NumberOfObjectsOnTheMap;
     MapItem[,] Map;
 
     void Start()
     {
+        NumberOfObjectsOnTheMap = 0;
         Map = new MapItem[11,11];
         BuildRandomResource();
     }
@@ -29,6 +31,8 @@ public class GridModel : MonoBehaviour
     }
     private void BuildRandomResource() 
     {
+        if (NumberOfObjectsOnTheMap >= Map.GetLength(0) * Map.GetLength(1)) return; // if map is full
+
         System.Random r = new System.Random();
         int ResourceIndex = r.Next(0, NonBuildings);
 
@@ -37,7 +41,7 @@ public class GridModel : MonoBehaviour
         {
             gridPos = new Vector2(r.Next(0, Map.GetLength(0)), r.Next(0, Map.GetLength(1)));
         }
-
+        //print(gridPos);
         BuildItem(ResourceIndex, gridPos);
         LastPlaced = Time.time;
     }
@@ -63,6 +67,12 @@ public class GridModel : MonoBehaviour
         newBuild.GetComponentInChildren<MapItemView>().ChangeIsToBuild();
         view.PlaceObject(pos, newBuild);
         Map[(int)pos.x, (int)pos.y] = newBuild.GetComponent<MapItem>();
+        if(Map[(int)pos.x, (int)pos.y] is  Consumable)
+        {
+            Consumable res = (Consumable)Map[(int)pos.x, (int)pos.y];
+            res.SetView(view);
+        }
+        NumberOfObjectsOnTheMap++;
     }
     public GameObject GetItem(string Name)
     {
@@ -112,5 +122,6 @@ public class GridModel : MonoBehaviour
     public void DestroyBuilding(Vector2 gridPos)
     {
         Map[(int)gridPos.x, (int)gridPos.y] = null;
+        NumberOfObjectsOnTheMap--;
     }
 }

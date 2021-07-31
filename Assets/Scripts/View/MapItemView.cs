@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapItemView : MonoBehaviour
+public class MapItemView : RaycastTarget
 {
     bool IsToBuild = true; 
     private UIController controller;
@@ -18,7 +18,7 @@ public class MapItemView : MonoBehaviour
 
     }
 
-    public void OnPressed()
+    public override void OnPressed()
     {
         if (!IsToBuild)
         {

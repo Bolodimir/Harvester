@@ -47,13 +47,10 @@
   <PropertyGroup>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Package</UnityProjectGenerator>
-    <UnityProjectGeneratorVersion>2.0.9</UnityProjectGeneratorVersion>
+    <UnityProjectGeneratorVersion>2.0.11</UnityProjectGeneratorVersion>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>2021.1.13f1</UnityVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
@@ -80,6 +77,8 @@
     <Compile Include="Assets\Scripts\Model\Building.cs" />
     <Compile Include="Assets\Scripts\Model\MapItem.cs" />
     <Compile Include="Assets\Scripts\View\BackgroundCatcher.cs" />
+    <Compile Include="Assets\Scripts\View\ExpandButton.cs" />
+    <Compile Include="Assets\Scripts\View\RaycastTarget.cs" />
     <Compile Include="Assets\Scripts\View\ViewToModel.cs" />
     <Compile Include="Assets\Scripts\View\CameraBehaviour.cs" />
     <Compile Include="Assets\Scripts\FramesCounter.cs" />
