@@ -26,7 +26,7 @@ public class Recipe
     {
         for(int i = 0; i < Input.Length; i++)
         {
-            if(Stats.Instance.Check(Input[i].Name, Input[i].Number))
+            if(Stats.Instance.Check(Input[i]))
             {
                 continue;
             }
@@ -34,7 +34,7 @@ public class Recipe
         }
         for (int i = 0; i < Input.Length; i++)
         {
-            Stats.Instance.Withdraw(Input[i].Name, Input[i].Number);
+            Stats.Instance.Withdraw(Input[i]);
             UpdateProduction(0);
         }
         // Add to the list of active recipies
@@ -51,13 +51,13 @@ public class Recipe
     }
     public void FinishProduction()
     {
-        if(Stats.Instance.Deposit(Output.Name, Output.Number))
+        if(Stats.Instance.Deposit(Output))
         {
             return;
         }
         else
         {
-            Stats.Instance.AddResource(Output.Name, Output.Number);
+            Stats.Instance.AddResource(Output);
         }
     }
 }

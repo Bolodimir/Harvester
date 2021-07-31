@@ -19,7 +19,12 @@ public class GridView : MonoBehaviour
     bool BuildingMode = false;
     Camera cam;
     bool MovingBuilding = false;
-    Vector3 forGizmo;
+
+    //DestroyMode
+
+    bool DestroyMode = false;
+    GameObject ToDestroy;
+    bool HasMoved;
 
     public void Start()
     {
@@ -40,30 +45,29 @@ public class GridView : MonoBehaviour
     {
         Vector2 deletePosition = ReferencePoint + gridPos * CellSizeInUnits;
         Collider[] items = Physics.OverlapSphere((Vector3)deletePosition, CellSizeInUnits * 0.75f);
-        if(items.Length > 0)
+        
+        if(items.Length == 1)
         {
-            if(items.Length == 1)
-            {
-                Destroy(items[0].gameObject);
-            }
-            else
-            {
-                print("Two Items in one cell on coordinates:" + gridPos);
-            }
+            Destroy(items[0].gameObject);
         }
+        else
+        {
+            print("Two Items in one cell on coordinates:" + gridPos);
+        }
+        
     }    
     public void ExpandGrid(Vector2 expansion)
     {
-        Field.transform.localScale = new Vector3(Field.transform.localScale.x + Mathf.Abs(expansion.x),
+        Field.transform.localScale = new Vector3(Field.transform.localScale.x + Mathf.Abs(expansion.x) * CellSizeInUnits,
                                                 Field.transform.localScale.y,
-                                                Field.transform.localScale.z + Mathf.Abs(expansion.y));
+                                                Field.transform.localScale.z + Mathf.Abs(expansion.y) * CellSizeInUnits);
 
-        Field.transform.position =  new Vector3(Field.transform.position.x + expansion.x / 2,
+        Field.transform.position =  new Vector3(Field.transform.position.x + expansion.x * CellSizeInUnits / 2,
                                                 Field.transform.position.y,
-                                                Field.transform.position.z + expansion.y / 2);
+                                                Field.transform.position.z + expansion.y * CellSizeInUnits / 2);
 
-        Height += Mathf.Abs(expansion.x);
-        Width += Mathf.Abs(expansion.y);
+        Height += Mathf.Abs(expansion.x) * CellSizeInUnits;
+        Width += Mathf.Abs(expansion.y) * CellSizeInUnits;
 
         CalculateReferencePoint();
     }
@@ -85,79 +89,76 @@ public class GridView : MonoBehaviour
         return new Vector2(pos.x, pos.z);
     }
 
-    //Building Mode
-    public void Update()
+    void Update()
     {
         if (BuildingMode && Input.touchCount == 1)
         {
-            if(Input.GetTouch(0).phase == TouchPhase.Began)
+            BuildModeUpdate();
+        }
+        if(DestroyMode && Input.touchCount == 1)
+        {
+            DestroyModeUpdate();
+        }
+    }   
+    //DestroyMode
+    public void InitiateDestroyMode()
+    {
+        DestroyMode = true;
+    }
+    private void DestroyModeUpdate()
+    {
+        if(Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            HasMoved = false;
+        }
+        if (Input.GetTouch(0).phase == TouchPhase.Moved)
+        {
+            HasMoved = true;
+        }
+        if (Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            if (!HasMoved)
             {
                 Ray FromCamera = cam.ScreenPointToRay(Input.GetTouch(0).position);
                 RaycastHit hit = new RaycastHit();
-                if (Physics.Raycast(FromCamera, out hit))
+                if (Physics.Raycast(FromCamera, out hit, 1000f, LayerMask.GetMask("Building")))
                 {
-                    if(hit.transform.parent.gameObject == ToBuild)
+                    GameObject building = hit.transform.parent.gameObject;
+                    if (building.GetComponent<Building>() != null)
                     {
-                        MainCamera.LockControls();
-                        MovingBuilding = true;
+                        if(ToDestroy != null)
+                        {
+                            ChangeBuildingColor(ToDestroy, Color.white);
+                        }
+                        ToDestroy = building;
+                        ChangeBuildingColor(ToDestroy, Color.red);
                     }
                 }
-            }
-            if (Input.GetTouch(0).phase == TouchPhase.Moved)
-            {
-                if (MovingBuilding)
-                {
-                    Vector3 TouchPos = MainCamera.GetPlanePointFromScreenPoint(Input.GetTouch(0).position);
-                    Vector3 Direction = TouchPos - ToBuild.transform.position;
-                    float Distance = Direction.magnitude;
-                    if(Distance >= 0.9f * CellSizeInUnits)
-                    {
-                        Vector3 newPos = Vector3.zero;
-                        if(Distance <1.3f * CellSizeInUnits)
-                        {
-                            if (Mathf.Abs(Direction.normalized.x) > 0.25 &&
-                                Mathf.Abs(Direction.normalized.z) > 0.25) return;
-
-                            if (Mathf.Abs(Direction.normalized.x) < 0.25)
-                            {
-                                newPos.x = 0;
-                                newPos.z = CellSizeInUnits * Mathf.Sign(Direction.z);
-                            }
-
-                            if (Mathf.Abs(Direction.normalized.z) < 0.25)
-                            {
-                                newPos.x = CellSizeInUnits * Mathf.Sign(Direction.x);
-                                newPos.z = 0;
-                            }
-                        }
-                        else
-                        {
-                            newPos = new Vector3(CellSizeInUnits * Mathf.Sign(Direction.x),
-                                                 0,
-                                                 CellSizeInUnits * Mathf.Sign(Direction.z));
-                        }
-                        
-                        newPos += ToBuild.transform.position;
-                        Vector2 gridPos = FromWorldToGrid(newPos);
-                        if(model.WithinBoundaries(gridPos))
-                        {
-                            PlaceObject(gridPos, ToBuild);
-                            if (model.CellIsEmpty(gridPos)) ChangeBuildingColor(ToBuild, Color.green);
-                            else ChangeBuildingColor(ToBuild, Color.red);
-                        }
-                    }
-                }
-            }
-            if (Input.GetTouch(0).phase == TouchPhase.Ended)
-            {
-                MainCamera.UnLockControls();
-                MovingBuilding = false;
             }
         }
+    } 
+    public void ChooseBuildingForDestroying()
+    {
+        if(ToDestroy != null)
+        {
+            model.DestroyBuilding(FromWorldToGrid(ToDestroy.transform.position));
+            Destroy(ToDestroy);
+        }        
     }
+    public void CancelDestroyMode()
+    {
+        if(ToDestroy != null)
+        {
+            ChangeBuildingColor(ToDestroy, Color.white);
+        }
+        DestroyMode = false;
+        ToDestroy = null;
+    }    
+    //BuildingMode
     public void InitiateBuildingForPlacing(string Name)
     {
         BuildingMode = true;
+        Destroy(ToBuild);
 
         GameObject Item = model.GetItem(Name);
         ToBuild = Instantiate(Item);
@@ -171,19 +172,98 @@ public class GridView : MonoBehaviour
         {
             ChangeBuildingColor(ToBuild, Color.red);
         }
+    }
+    private void BuildModeUpdate()
+    {
+        if (Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            Ray FromCamera = cam.ScreenPointToRay(Input.GetTouch(0).position);
+            RaycastHit hit = new RaycastHit();
+            if (Physics.Raycast(FromCamera, out hit, 1000f, LayerMask.GetMask("Building")))
+            {
+                if (hit.transform.parent.gameObject == ToBuild)
+                {
+                    MainCamera.LockControls();
+                    MovingBuilding = true;
+                }
+            }
+        }
+        if (Input.GetTouch(0).phase == TouchPhase.Moved && MovingBuilding)
+        {
+            Vector3 TouchPos = MainCamera.GetPlanePointFromScreenPoint(Input.GetTouch(0).position);
+            Vector3 Direction = TouchPos - ToBuild.transform.position;
+            float Distance = Direction.magnitude;
+            if (Distance >= 0.9f * CellSizeInUnits)
+            {
+                Vector3 newPos = Vector3.zero;
+                if (Distance < 1.3f * CellSizeInUnits)
+                {
+                    if (Mathf.Abs(Direction.normalized.x) > 0.25 &&
+                        Mathf.Abs(Direction.normalized.z) > 0.25) return;
 
+                    if (Mathf.Abs(Direction.normalized.x) < 0.25)
+                    {
+                        newPos.x = 0;
+                        newPos.z = CellSizeInUnits * Mathf.Sign(Direction.z);
+                    }
+
+                    if (Mathf.Abs(Direction.normalized.z) < 0.25)
+                    {
+                        newPos.x = CellSizeInUnits * Mathf.Sign(Direction.x);
+                        newPos.z = 0;
+                    }
+                }
+                else
+                {
+                    newPos = new Vector3(CellSizeInUnits * Mathf.Sign(Direction.x),
+                                            0,
+                                            CellSizeInUnits * Mathf.Sign(Direction.z));
+                }
+
+                newPos += ToBuild.transform.position;
+                Vector2 gridPos = FromWorldToGrid(newPos);
+                if (model.WithinBoundaries(gridPos))
+                {
+                    PlaceObject(gridPos, ToBuild);
+                    if (model.CellIsEmpty(gridPos)) ChangeBuildingColor(ToBuild, Color.green);
+                    else ChangeBuildingColor(ToBuild, Color.red);
+                }
+            }
+
+        }
+        if (Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            MainCamera.UnLockControls();
+            MovingBuilding = false;
+        }
     }
     private void ChangeBuildingColor(GameObject building, Color color)
     {
         building.GetComponentInChildren<MeshRenderer>().material.SetColor("_Color",color);
     }
-    private void OnDrawGizmos()
+    public bool ChoosePlaceForBuilding()
     {
-        Gizmos.DrawCube(forGizmo, Vector3.one * 3);
-        /*if(ToBuild != null)
+        MovingBuilding = false;
+        MainCamera.UnLockControls();
+        Vector2 gridPos = FromWorldToGrid(ToBuild.transform.position);
+        if (model.CellIsEmpty(gridPos))
         {
-            Gizmos.DrawLine(ToBuild.transform.position, ToBuild.transform.position + forGizmo);
+            model.BuildItem(ToBuild.GetComponent<MapItem>().Name, gridPos);
+            Destroy(ToBuild);
+            BuildingMode = false;
+            return true;
         }
-        */
+        return false;
+    }
+    public void CancelBuildingMode()
+    {
+        MovingBuilding = false;
+        MainCamera.UnLockControls();
+        Destroy(ToBuild);
+        BuildingMode = false;
+    }
+    public bool IsBuildingMode()
+    {
+        return BuildingMode;
     }
 }

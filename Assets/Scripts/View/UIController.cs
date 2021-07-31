@@ -9,12 +9,26 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject GeneralMenu;
     [SerializeField] GameObject ItemMenu;
     [SerializeField] GameObject BuildMenu;
+    [SerializeField] GameObject DestroyMenu;
+    [SerializeField] GameObject ResourceMenu;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+    void Start()
+    {
+        OpenGeneralMenu();
+        MainCamera = Camera.main.gameObject.GetComponent<CameraBehaviour>();
+    }
     private void CloseAllMenus()
     {
         GeneralMenu.SetActive(false);
         ItemMenu.SetActive(false);
         BuildMenu.SetActive(false);
+        DestroyMenu.SetActive(false);
+        ResourceMenu.SetActive(false);
+
     }
     public void OpenItemMenu()
     {
@@ -32,27 +46,22 @@ public class UIController : MonoBehaviour
         CloseAllMenus();
         BuildMenu.SetActive(true);
     }
+    public void OpenDestroyMenu()
+    {
+        CloseAllMenus();
+        DestroyMenu.SetActive(true);
+    }
+    public void OpenResourceMenu()
+    {
+        CloseAllMenus();
+        ResourceMenu.SetActive(true);
+    }
     public void NoUIclick()
     {
-        OpenGeneralMenu();
         MainCamera.UnLockControls();
     }
     public void UIclick()
     {
         MainCamera.LockControls();
-    }
-    private void Awake()
-    {
-        Instance = this;
-    }
-    void Start()
-    {
-        OpenGeneralMenu();
-        MainCamera = Camera.main.gameObject.GetComponent<CameraBehaviour>();
-    }
-
-    void Update()
-    {
-        
-    }
+    } 
 }

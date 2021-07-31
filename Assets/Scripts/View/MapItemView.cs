@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class MapItemView : MonoBehaviour
 {
+    bool IsToBuild = true; 
     private UIController controller;
+    MapItem model;
     void Start()
     {
         controller = UIController.Instance;
+        model = GetComponentInParent<MapItem>();
     }
 
     void Update()
@@ -17,16 +20,21 @@ public class MapItemView : MonoBehaviour
 
     public void OnPressed()
     {
-
+        if (!IsToBuild)
+        {
+            model.Action();
+        }
     }
-
     public void Select()
     {
 
     }
-
     public void DeSelect()
     {
 
+    }
+    public void ChangeIsToBuild()
+    {
+        IsToBuild = false;
     }
 }

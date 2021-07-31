@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public struct Resource
 {
-    public string Name { get; set; }
-    public int Number { get; set; }
+    public string Name;
+    public int Number;
 
     public Resource(string Name, int Number)
     {        

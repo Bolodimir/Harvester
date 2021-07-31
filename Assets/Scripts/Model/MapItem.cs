@@ -5,4 +5,11 @@ using UnityEngine;
 public class MapItem : MonoBehaviour
 {
     public string Name;
+    public string Description;
+    public Sprite Icon;
+
+    public virtual void Action()
+    {
+
+    }
 }

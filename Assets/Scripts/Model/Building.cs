@@ -17,4 +17,8 @@ public class Building : MapItem
     {
         
     }
+    public override void Action()
+    {
+        UIController.Instance.OpenItemMenu();
+    }
 }
