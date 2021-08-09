@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Stats : MonoBehaviour
 {
     public static Stats Instance; //Singletone
 
-    private Resource[] resources;    
+    private Resource[] resources;
+
+    public delegate void StatsEventHandler();
+    public event StatsEventHandler StatsChanged;
 
     public Stats()
     {        
@@ -19,7 +23,7 @@ public class Stats : MonoBehaviour
 
     public bool Withdraw(Resource value) //if has enough resources, withdraws them and returns false
     {
-        if (value.Number <= 0) return false;
+        if (value.Number <= 0) return true;
 
         for (int i = 0; i < resources.Length; i++)
         {
@@ -28,6 +32,7 @@ public class Stats : MonoBehaviour
                 if(resources[i].Number >= value.Number)
                 {
                     resources[i].Number -= value.Number;
+                    StatsChanged?.Invoke();
                     return true;
                 }
                 else
@@ -47,6 +52,7 @@ public class Stats : MonoBehaviour
             if (resources[i].Name == value.Name)
             {
                 resources[i].Number += value.Number;
+                StatsChanged?.Invoke();
                 return true;
             }
         }
@@ -61,10 +67,11 @@ public class Stats : MonoBehaviour
         }
         newResources[newResources.Length - 1] = value;
         resources = newResources;
+        StatsChanged?.Invoke();
     }
     public bool Check(Resource value) // Check if has enough resources
     {
-        if (value.Number <= 0) return false;
+        if (value.Number <= 0) return true;
 
         for (int i = 0; i < resources.Length; i++)
         {
@@ -85,5 +92,16 @@ public class Stats : MonoBehaviour
     public Resource[] GetResources()
     {
         return resources;
+    }
+    public Resource GetOneResource(Resource value)
+    {
+        for (int i = 0; i < resources.Length; i++)
+        {
+            if (resources[i].Name == value.Name)
+            {
+                return resources[i];
+            }
+        }
+        return new Resource("",0);
     }
 }

@@ -46,8 +46,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Factory
   Description: A building where things are constructed
-  Icon: {fileID: 0}
-  Cost: []
+  Icon: {fileID: 21300000, guid: d14a0b1afd04fed408837b69b837ee93, type: 3}
+  Cost:
+  - Name: Brick
+    Number: 50
+  - Name: Steel Ingot
+    Number: 10
+  - Name: Glass
+    Number: 10
+  recipies:
+  - Input:
+    - Name: Brick
+      Number: 50
+    Output:
+      Name: Wall Fragment
+      Number: 1
+    TimeToProduce: 20
+  - Input:
+    - Name: Brick
+      Number: 20
+    - Name: Glass
+      Number: 5
+    - Name: Steel Ingot
+      Number: 10
+    Output:
+      Name: Tower
+      Number: 1
+    TimeToProduce: 20
+  - Input:
+    - Name: Brick
+      Number: 100
+    - Name: Glass
+      Number: 20
+    - Name: Steel Ingot
+      Number: 50
+    - Name: Gold Ingot
+      Number: 50
+    Output:
+      Name: Citadel
+      Number: 1
+    TimeToProduce: 50
 --- !u!1 &8577823200464355490
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,3 +195,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51c38db4665c30c4cbb5b0dda91faa70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  model: {fileID: 6446627189212434283}

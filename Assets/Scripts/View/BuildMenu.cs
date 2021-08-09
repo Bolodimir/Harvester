@@ -36,12 +36,25 @@ public class BuildMenu : MonoBehaviour
             BuildingCard card = cardObject.GetComponent<BuildingCard>();
 
             cardObject.transform.SetParent(BuildingContainer.transform,false);
-            card.Initialize(buildings[i].Icon, buildings[i].Name, buildings[i].Description, buildings[i].Name, this) ;
+            card.Initialize(buildings[i].Icon, buildings[i].Name, buildings[i].GetPriceString(), this) ;
         }
     }
     public void OnBuildingPressed(string BuildingName)
     {
         Controller.UIclick();
+        Building newBuilding= model.GetItem(BuildingName).GetComponent<Building>();
+        if (newBuilding == null) return;
+        foreach(Resource res in newBuilding.GetPrice())
+        {
+            if (!Stats.Instance.Check(res))
+            {
+                return;
+            }
+        }
+        foreach (Resource res in newBuilding.GetPrice())
+        {
+            Stats.Instance.Withdraw(res);
+        }
         view.CancelBuildingMode();
         view.InitiateBuildingForPlacing(BuildingName);
     }

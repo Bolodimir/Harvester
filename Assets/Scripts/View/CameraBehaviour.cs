@@ -15,7 +15,7 @@ public class CameraBehaviour : MonoBehaviour
     [SerializeField] private Vector2 FirstBorderPoint;
     [SerializeField] private Vector2 SecondBorderPoint;
 
-
+    private bool TouchLocked;
     private bool ControlsLocked;
     private Vector3 PlaneCenter;
     private Plane PlaneForInterception;
@@ -68,19 +68,18 @@ public class CameraBehaviour : MonoBehaviour
             {
                 if(!hasMoved)
                 {
-                    Ray FromCamera = MainCamera.ScreenPointToRay(newTouch.position);
-                    RaycastHit hit = new RaycastHit();
-                    if(Physics.Raycast(FromCamera,out hit))
+                    if (!TouchLocked)
                     {
-                        hit.transform.GetComponent<RaycastTarget>().OnPressed();
-                    }
+                        Ray FromCamera = MainCamera.ScreenPointToRay(newTouch.position);
+                        RaycastHit hit = new RaycastHit();
+                        if (Physics.Raycast(FromCamera, out hit))
+                        {
+                            hit.transform.GetComponent<RaycastTarget>().OnPressed();
+                        }
+                    }                    
                 }
                 else
-                {                    
-                    //print(CurrentCameraMoveDir);
-                    //print(CurrentCameraMoveDir.magnitude);
-                    //print(Time.time - LastTouchUpdateTime);
-                    //print(CurrentCameraMoveDir.magnitude / (Time.time - LastTouchUpdateTime));
+                { 
                     CurrentCameraSpeed = CurrentCameraMoveDir.magnitude /(Time.time - LastTouchUpdateTime);
                     CurrentCameraSpeed = Mathf.Clamp(CurrentCameraSpeed, 0, MaxCameraSpeed);
                     CurrentCameraMoveDir = CurrentCameraMoveDir.normalized;
@@ -121,7 +120,6 @@ public class CameraBehaviour : MonoBehaviour
 
     private void SpeedUpdate()
     {
-        //print(CurrentCameraSpeed);
         if (CurrentCameraSpeed < 0.1f) return;
         MainCamera.transform.position = MainCamera.transform.position + CurrentCameraMoveDir * CurrentCameraSpeed * Time.deltaTime;
         CurrentCameraSpeed -= CameraDrag * Time.deltaTime;
@@ -170,6 +168,14 @@ public class CameraBehaviour : MonoBehaviour
     public void UnLockControls()
     {
         ControlsLocked = false;
+    }
+    public void LockTouch()
+    {
+        TouchLocked = true;
+    }
+    public void UnLockTouch()
+    {
+        TouchLocked = false;
     }
 
 }

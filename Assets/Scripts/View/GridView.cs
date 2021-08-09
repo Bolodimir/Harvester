@@ -142,6 +142,7 @@ public class GridView : MonoBehaviour
     public void InitiateDestroyMode()
     {
         DestroyMode = true;
+        MainCamera.LockTouch();
     }
     private void DestroyModeUpdate()
     {
@@ -181,7 +182,8 @@ public class GridView : MonoBehaviour
         {
             model.DestroyBuilding(FromWorldToGrid(ToDestroy.transform.position));
             Destroy(ToDestroy);
-        }        
+        }
+        MainCamera.UnLockTouch();
     }
     public void CancelDestroyMode()
     {
@@ -191,6 +193,7 @@ public class GridView : MonoBehaviour
         }
         DestroyMode = false;
         ToDestroy = null;
+        MainCamera.UnLockTouch();
     }    
     //BuildingMode
     public void InitiateBuildingForPlacing(string Name)

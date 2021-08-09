@@ -62,9 +62,12 @@
     <Compile Include="Assets\Scripts\Diagnostics.cs" />
     <Compile Include="Assets\Scripts\View\GridView.cs" />
     <Compile Include="Assets\Scripts\View\BuildMenu.cs" />
+    <Compile Include="Assets\Scripts\View\SpriteStorage.cs" />
+    <Compile Include="Assets\Scripts\View\RecipeCard.cs" />
     <Compile Include="Assets\Scripts\Model\Consumable.cs" />
     <Compile Include="Assets\Scripts\Model\Controller.cs" />
     <Compile Include="Assets\Scripts\View\MapItemView.cs" />
+    <Compile Include="Assets\Scripts\View\ItemMenu.cs" />
     <Compile Include="Assets\Scripts\View\DestroyMenu.cs" />
     <Compile Include="Assets\Scripts\View\UIController.cs" />
     <Compile Include="Assets\Scripts\View\ResourceCard.cs" />
@@ -73,9 +76,12 @@
     <Compile Include="Assets\Scripts\Model\Stats.cs" />
     <Compile Include="Assets\Scripts\Model\Recipe.cs" />
     <Compile Include="Assets\Scripts\Model\Research.cs" />
+    <Compile Include="Assets\Scripts\View\CurrentRecipeMenu.cs" />
     <Compile Include="Assets\Scripts\View\UICatcher.cs" />
     <Compile Include="Assets\Scripts\Model\Building.cs" />
+    <Compile Include="Assets\Scripts\View\MakeMenu.cs" />
     <Compile Include="Assets\Scripts\Model\MapItem.cs" />
+    <Compile Include="Assets\Scripts\View\RecipeQueue.cs" />
     <Compile Include="Assets\Scripts\View\BackgroundCatcher.cs" />
     <Compile Include="Assets\Scripts\View\ExpandButton.cs" />
     <Compile Include="Assets\Scripts\View\RaycastTarget.cs" />

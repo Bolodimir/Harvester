@@ -4,18 +4,12 @@ using UnityEngine;
 
 public class MapItemView : RaycastTarget
 {
-    bool IsToBuild = true; 
+    [SerializeField]MapItem model;
+    bool IsToBuild = true;
     private UIController controller;
-    MapItem model;
     void Start()
     {
         controller = UIController.Instance;
-        model = GetComponentInParent<MapItem>();
-    }
-
-    void Update()
-    {
-
     }
 
     public override void OnPressed()

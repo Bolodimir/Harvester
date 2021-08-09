@@ -16,7 +16,8 @@ public class ExpandButton : RaycastTarget
     {
         if (Stats.Instance.Check(ExpandPrice))
         {
-            foreach(ExpandButton eb in Neighbours)
+            Stats.Instance.Withdraw(ExpandPrice);
+            foreach (ExpandButton eb in Neighbours)
             {
                 eb.OnNeighborExpanded(ExpandDirection);
             }
@@ -26,7 +27,6 @@ public class ExpandButton : RaycastTarget
     }
     public void OnNeighborExpanded(Vector2 Expansion)
     {
-        print(Expansion);
         transform.localScale = transform.localScale + new Vector3
         (
             Mathf.Abs(Expansion.x) * view.GetSize(),

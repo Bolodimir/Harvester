@@ -7,7 +7,7 @@ public class UIController : MonoBehaviour
     public static UIController Instance;
     CameraBehaviour MainCamera;
     [SerializeField] GameObject GeneralMenu;
-    [SerializeField] GameObject ItemMenu;
+    [SerializeField] ItemMenu itemMenu;
     [SerializeField] GameObject BuildMenu;
     [SerializeField] GameObject DestroyMenu;
     [SerializeField] GameObject ResourceMenu;
@@ -24,16 +24,17 @@ public class UIController : MonoBehaviour
     private void CloseAllMenus()
     {
         GeneralMenu.SetActive(false);
-        ItemMenu.SetActive(false);
+        itemMenu.gameObject.SetActive(false);
         BuildMenu.SetActive(false);
         DestroyMenu.SetActive(false);
         ResourceMenu.SetActive(false);
 
     }
-    public void OpenItemMenu()
+    public void OpenItemMenu(Building building)
     {
         CloseAllMenus();
-        ItemMenu.SetActive(true);
+        itemMenu.gameObject.SetActive(true);
+        itemMenu.SetBuilding(building);
     }
 
     public void OpenGeneralMenu()

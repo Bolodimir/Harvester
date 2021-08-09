@@ -8,16 +8,14 @@ public class BuildingCard : MonoBehaviour
 {
     [SerializeField] Image Icon;
     [SerializeField] TextMeshProUGUI Name;
-    [SerializeField] TextMeshProUGUI Description;
     [SerializeField] TextMeshProUGUI Price;
 
     private BuildMenu Menu;
 
-    public void Initialize(Sprite icon, string name, string description, string price, BuildMenu menu)
+    public void Initialize(Sprite icon, string name,  string price, BuildMenu menu)
     {
         Icon.sprite = icon;
         Name.text = name;
-        Description.text = description;
         Price.text = price;
 
         Menu = menu;
