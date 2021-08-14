@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
     [SerializeField] GameObject BuildMenu;
     [SerializeField] GameObject DestroyMenu;
     [SerializeField] GameObject ResourceMenu;
+    [SerializeField] GameObject ResearchMenu;
 
     private void Awake()
     {
@@ -28,7 +29,7 @@ public class UIController : MonoBehaviour
         BuildMenu.SetActive(false);
         DestroyMenu.SetActive(false);
         ResourceMenu.SetActive(false);
-
+        ResearchMenu.SetActive(false);
     }
     public void OpenItemMenu(Building building)
     {
@@ -56,6 +57,11 @@ public class UIController : MonoBehaviour
     {
         CloseAllMenus();
         ResourceMenu.SetActive(true);
+    }
+    public void OpenResearchMenu()
+    {
+        CloseAllMenus();
+        ResearchMenu.SetActive(true);
     }
     public void NoUIclick()
     {

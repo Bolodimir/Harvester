@@ -12,6 +12,8 @@ public class Stats : MonoBehaviour
     public delegate void StatsEventHandler();
     public event StatsEventHandler StatsChanged;
 
+    public Research[] Researches;
+
     public Stats()
     {        
         if(Instance == null)

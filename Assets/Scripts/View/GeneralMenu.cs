@@ -9,6 +9,7 @@ public class GeneralMenu : MonoBehaviour
 
     public void OnResearchButtonClick()
     {
+        Controller.OpenResearchMenu();
         Controller.UIclick();
     }
     public void OnResourceButtonClick()
