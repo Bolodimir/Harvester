@@ -24,14 +24,15 @@ public class ResearchMenu : MonoBehaviour
     {
         controller.OpenGeneralMenu();
     }
-    public void BuyUpgrade(string Name)
+    public bool TryBuyUpgrade(string Name)
     {
         foreach(Research rsch in Stats.Instance.Researches)
         {
             if(string.Equals(Name,rsch.GetName()))
             {
-                rsch.Upgrade();
+                return rsch.TryUpgrade();
             }
         }
+        return false;
     }
 }

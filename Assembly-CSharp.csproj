@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -53,6 +53,9 @@
     <UnityVersion>2021.1.13f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Assets\Scripts\Model\Resource.cs" />
     <Compile Include="Assets\Scripts\View\BuildingCard.cs" />
     <Compile Include="Assets\Scripts\Model\GridModel.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="Assets\Scripts\View\ResourceMenu.cs" />
     <Compile Include="Assets\Scripts\Model\Stats.cs" />
     <Compile Include="Assets\Scripts\Model\Recipe.cs" />
+    <Compile Include="Assets\Scripts\View\ResearchCard.cs" />
     <Compile Include="Assets\Scripts\Model\Research.cs" />
     <Compile Include="Assets\Scripts\View\CurrentRecipeMenu.cs" />
     <Compile Include="Assets\Scripts\View\UICatcher.cs" />
@@ -80,13 +84,12 @@
     <Compile Include="Assets\Scripts\Model\MapItem.cs" />
     <Compile Include="Assets\Scripts\View\RecipeQueue.cs" />
     <Compile Include="Assets\Scripts\View\BackgroundCatcher.cs" />
+    <Compile Include="Assets\Scripts\View\ResearchMenu.cs" />
     <Compile Include="Assets\Scripts\View\ExpandButton.cs" />
     <Compile Include="Assets\Scripts\View\RaycastTarget.cs" />
     <Compile Include="Assets\Scripts\View\ViewToModel.cs" />
     <Compile Include="Assets\Scripts\View\CameraBehaviour.cs" />
     <Compile Include="Assets\Scripts\FramesCounter.cs" />
-    <Compile Include="Assets\Scripts\View\ResearchMenu.cs" />
-    <Compile Include="Assets\Scripts\View\ResearchCard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

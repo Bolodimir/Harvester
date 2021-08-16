@@ -38,14 +38,16 @@ public class Research
     {
         return _currentProgress;
     }
-    public void Upgrade()
+    public bool TryUpgrade()
     {
-        if (_currentProgress == _maxProgress) return;
-        _currentProgress++;
-        _value += _increaseValue;
+        if (_currentProgress == _maxProgress) return false;        
         if (Stats.Instance.Check(_cost))
         {
+            _currentProgress++;
+            _value += _increaseValue;
             Stats.Instance.Withdraw(_cost);
+            return true;
         }
+        return false;
     }
 }

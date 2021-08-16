@@ -30,18 +30,23 @@ public class ResearchCard : MonoBehaviour
     }
     public void OnBuyButtonClicked()
     {
-        _menu.BuyUpgrade(ResearchName.text);
-        int Progress = 0;
-        foreach (Research rsch in Stats.Instance.Researches)
+        bool UpgradeIsSuccessful = _menu.TryBuyUpgrade(ResearchName.text);
+
+        if (UpgradeIsSuccessful)
         {
-            if (string.Equals(ResearchName.text, rsch.GetName()))
+            int Progress = 0;
+            foreach (Research rsch in Stats.Instance.Researches)
             {
-                Progress = rsch.GetProgress();
+                if (string.Equals(ResearchName.text, rsch.GetName()))
+                {
+                    Progress = rsch.GetProgress();
+                    break;
+                }
             }
-        }
-        for(int i = 0; i < Progress; i++)
-        {
-            ProgressUnits[i].color = FilledColor;
-        }
+            for (int i = 0; i < Progress; i++)
+            {
+                ProgressUnits[i].color = FilledColor;
+            }
+        }        
     }
 }
