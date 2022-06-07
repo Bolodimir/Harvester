@@ -15,13 +15,13 @@ public class CameraBehaviour : MonoBehaviour
     [SerializeField] private Vector2 FirstBorderPoint;
     [SerializeField] private Vector2 SecondBorderPoint;
 
-    private bool TouchLocked;
-    private bool ControlsLocked;
-    private Vector3 PlaneCenter;
-    private Plane PlaneForInterception;
-    private float CurrentCameraSpeed;
-    private Vector3 CurrentCameraMoveDir;
-    private float LastTouchUpdateTime;
+    private bool _touchLocked;
+    private bool _controlsLocked;
+    private Vector3 _planeCenter;
+    private Plane _planeForInterception;
+    private float _currentCameraSpeed;
+    private Vector3 _currentCameraMoveDir;
+    private float _lastTouchUpdateTime;
 
     Touch oldTouch;
     bool hasMoved;
@@ -29,9 +29,9 @@ public class CameraBehaviour : MonoBehaviour
     public void Start()
     {
         if (MainCamera == null) MainCamera = Camera.main;
-        if (PlaneCenterObject != null) PlaneCenter = PlaneCenterObject.position;
-            else PlaneCenter = Vector3.zero;
-        PlaneForInterception = new Plane(Vector3.up, PlaneCenter);
+        if (PlaneCenterObject != null) _planeCenter = PlaneCenterObject.position;
+            else _planeCenter = Vector3.zero;
+        _planeForInterception = new Plane(Vector3.up, _planeCenter);
     }    
 
     public void Update()
@@ -39,15 +39,15 @@ public class CameraBehaviour : MonoBehaviour
 
         if (Input.touchCount == 0) SpeedUpdate();
 
-        if (ControlsLocked) return;
+        if (_controlsLocked) return;
 
         if(Input.touchCount == 1)
         {
             Touch newTouch = Input.GetTouch(0);
             if (newTouch.phase == TouchPhase.Began)
             {
-                CurrentCameraMoveDir = Vector3.zero;
-                CurrentCameraSpeed = 0;
+                _currentCameraMoveDir = Vector3.zero;
+                _currentCameraSpeed = 0;
                 hasMoved = false;
             }
             if (newTouch.phase == TouchPhase.Moved)
@@ -57,10 +57,10 @@ public class CameraBehaviour : MonoBehaviour
                 {
                     Vector3 WorldPointDelta = GetWorldPointDeltaFromTouch(Input.GetTouch(0));
                     MainCamera.transform.position += WorldPointDelta;
-                    CurrentCameraMoveDir = WorldPointDelta;
+                    _currentCameraMoveDir = WorldPointDelta;
                     ClampCameraInBorders();
 
-                    LastTouchUpdateTime = Time.time;
+                    _lastTouchUpdateTime = Time.time;
 
                 }               
             }
@@ -68,7 +68,7 @@ public class CameraBehaviour : MonoBehaviour
             {
                 if(!hasMoved)
                 {
-                    if (!TouchLocked)
+                    if (!_touchLocked)
                     {
                         Ray FromCamera = MainCamera.ScreenPointToRay(newTouch.position);
                         RaycastHit hit = new RaycastHit();
@@ -80,9 +80,9 @@ public class CameraBehaviour : MonoBehaviour
                 }
                 else
                 { 
-                    CurrentCameraSpeed = CurrentCameraMoveDir.magnitude /(Time.time - LastTouchUpdateTime);
-                    CurrentCameraSpeed = Mathf.Clamp(CurrentCameraSpeed, 0, MaxCameraSpeed);
-                    CurrentCameraMoveDir = CurrentCameraMoveDir.normalized;
+                    _currentCameraSpeed = _currentCameraMoveDir.magnitude /(Time.time - _lastTouchUpdateTime);
+                    _currentCameraSpeed = Mathf.Clamp(_currentCameraSpeed, 0, MaxCameraSpeed);
+                    _currentCameraMoveDir = _currentCameraMoveDir.normalized;
                 }
             }
             oldTouch = newTouch;
@@ -120,10 +120,10 @@ public class CameraBehaviour : MonoBehaviour
 
     private void SpeedUpdate()
     {
-        if (CurrentCameraSpeed < 0.1f) return;
-        MainCamera.transform.position = MainCamera.transform.position + CurrentCameraMoveDir * CurrentCameraSpeed * Time.deltaTime;
-        CurrentCameraSpeed -= CameraDrag * Time.deltaTime;
-        if (CurrentCameraSpeed < 0) CurrentCameraSpeed = 0;
+        if (_currentCameraSpeed < 0.1f) return;
+        MainCamera.transform.position = MainCamera.transform.position + _currentCameraMoveDir * _currentCameraSpeed * Time.deltaTime;
+        _currentCameraSpeed -= CameraDrag * Time.deltaTime;
+        if (_currentCameraSpeed < 0) _currentCameraSpeed = 0;
         ClampCameraInBorders();
     }
 
@@ -149,7 +149,7 @@ public class CameraBehaviour : MonoBehaviour
     public Vector3 GetPlanePointFromScreenPoint(Vector2 ScreenPoint)
     {
         Ray FromCamera = MainCamera.ScreenPointToRay(ScreenPoint);
-        if (PlaneForInterception.Raycast(FromCamera, out float DistanceToPlane))
+        if (_planeForInterception.Raycast(FromCamera, out float DistanceToPlane))
             return FromCamera.GetPoint(DistanceToPlane);
 
         return Vector3.zero;
@@ -162,20 +162,20 @@ public class CameraBehaviour : MonoBehaviour
 
     public void LockControls()
     {
-        ControlsLocked = true;
+        _controlsLocked = true;
     }
 
     public void UnLockControls()
     {
-        ControlsLocked = false;
+        _controlsLocked = false;
     }
     public void LockTouch()
     {
-        TouchLocked = true;
+        _touchLocked = true;
     }
     public void UnLockTouch()
     {
-        TouchLocked = false;
+        _touchLocked = false;
     }
 
 }

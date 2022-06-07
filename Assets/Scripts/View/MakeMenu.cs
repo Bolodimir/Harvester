@@ -13,18 +13,28 @@ public class MakeMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI NumberOfItems;
 
     ItemMenu itemMenu;
-    public void Initialize(Sprite icon, string name, string price, ItemMenu menu)
+    private Recipe _curRecipe;
+
+    private void Start()
+    {
+        Stats.Instance.StatsChanged += OnStatsChanged;
+    }
+
+    public void Initialize(Sprite icon, string name, string price, ItemMenu menu, Recipe curRecipe)
     {
         Icon.sprite = icon;
         Name.text = name;
         Price.text = price;
         itemMenu = menu;
         NumberOfItems.text = "1";
+        _curRecipe = curRecipe;
     }
+
     public void OnBackButtonClicked()
     {
         itemMenu.CancelMakeMenu();
     }
+
     public void OnMakeButtonClicked()
     {
         string itemName = Name.text;
@@ -40,6 +50,7 @@ public class MakeMenu : MonoBehaviour
         }
         itemMenu.MakeItem(Name.text, itemNumber, itemIsInfinite);
     }
+
     public void OnMinusButtonClicked()
     {
         if (string.Equals(NumberOfItems.text, "Infinity"))
@@ -53,6 +64,7 @@ public class MakeMenu : MonoBehaviour
             NumberOfItems.text = (num - 1).ToString();
         }
     }
+
     public void OnPlusButtonClicked()
     {
         if(string.Equals(NumberOfItems.text, "Infinity"))
@@ -66,8 +78,14 @@ public class MakeMenu : MonoBehaviour
             NumberOfItems.text = (num + 1).ToString();
         }
     }
+
     public void OnInfinityButtonClicked()
     {
         NumberOfItems.text = "Infinity";
+    }
+
+    private void OnStatsChanged()
+    {
+        Price.text = _curRecipe.GetInput();
     }
 }

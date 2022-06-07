@@ -56,7 +56,7 @@ public class ItemMenu : MonoBehaviour
 
         Recipe MakeRecipe = CurrentBuilding.GetRecipeByName(name);
         Sprite sprite = SpriteStorage.Instance.GetSpriteByName(name);
-        makeMenu.Initialize(sprite, MakeRecipe.GetName(), MakeRecipe.GetInput(), this);
+        makeMenu.Initialize(sprite, MakeRecipe.GetName(), MakeRecipe.GetInput(), this, MakeRecipe);
     }
     public void CancelMakeMenu()
     {

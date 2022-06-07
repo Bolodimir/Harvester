@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class BackgroundCatcher : MonoBehaviour, IPointerDownHandler
-{
+{        
     UIController Controller;
 
     void Start()

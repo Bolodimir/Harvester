@@ -11,21 +11,13 @@ public class BuildMenu : MonoBehaviour
 
     [SerializeField] GameObject BuildingContainer;
 
+    private List<BuildingCard> _cards;    
 
-    public void OnBuildButtonClick()
+    private void Awake()
     {
-        if (view.IsBuildingMode())
-        {
-            view.ChoosePlaceForBuilding();
-        }
-        Controller.UIclick(); 
+        _cards = new List<BuildingCard>();
     }
-    public void OnBackButtonClick()
-    {
-        view.CancelBuildingMode();
-        Controller.UIclick();
-        Controller.OpenGeneralMenu();
-    }
+
     private void Start()
     {
         Controller = UIController.Instance;
@@ -36,9 +28,27 @@ public class BuildMenu : MonoBehaviour
             BuildingCard card = cardObject.GetComponent<BuildingCard>();
 
             cardObject.transform.SetParent(BuildingContainer.transform,false);
-            card.Initialize(buildings[i].Icon, buildings[i].Name, buildings[i].GetPriceString(), this) ;
+            card.Initialize(buildings[i].Icon, buildings[i].Name, buildings[i].GetPriceString(), this, buildings[i]);
+            _cards.Add(card);
         }
+        Stats.Instance.StatsChanged += OnStatsChanged;
     }
+    public void OnBuildButtonClick()
+    {
+        if (view.IsBuildingMode())
+        {
+            view.ChoosePlaceForBuilding();
+        }
+        Controller.UIclick();
+    }
+
+    public void OnBackButtonClick()
+    {
+        view.CancelBuildingMode();
+        Controller.UIclick();
+        Controller.OpenGeneralMenu();
+    }
+
     public void OnBuildingPressed(string BuildingName)
     {
         Controller.UIclick();
@@ -57,5 +67,13 @@ public class BuildMenu : MonoBehaviour
         }
         view.CancelBuildingMode();
         view.InitiateBuildingForPlacing(BuildingName);
+    }
+
+    private void OnStatsChanged()
+    {
+        foreach(var card in _cards)
+        {
+            card.UpdatePrice();
+        }
     }
 }

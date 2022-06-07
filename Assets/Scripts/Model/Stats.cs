@@ -14,10 +14,10 @@ public class Stats : MonoBehaviour
 
     public Research[] Researches;
 
-    public Stats()
-    {        
-        if(Instance == null)
-        {            
+    private void Awake()
+    {
+        if (Instance == null)
+        {
             resources = new Resource[0];
         }
         Instance = this;

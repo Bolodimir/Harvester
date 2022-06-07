@@ -7,10 +7,10 @@ public class Building : MapItem
     public delegate void BuildingEventHandler(Recipe curRecipe, int QueueNumber);
     public event BuildingEventHandler BuildingChanged;
 
-    [SerializeField] Resource[] Cost;
-    [SerializeField] private Recipe[] recipies;    
-    RecipeQueue CurrentQueue;    
-    Recipe curRecipe;
+    [SerializeField] private Resource[] Cost;
+    [SerializeField] private Recipe[] recipies;
+    private RecipeQueue CurrentQueue;
+    private Recipe curRecipe;
     Recipe CurrentRecipe
     {
         get
@@ -27,6 +27,7 @@ public class Building : MapItem
             }
         }
     }
+
     private void Start()
     {
         foreach(Recipe rec in recipies)
@@ -34,6 +35,7 @@ public class Building : MapItem
             rec.SetBuilding(this);
         }
     }
+
     private void Update()
     {
         if (curRecipe != null)
@@ -50,10 +52,12 @@ public class Building : MapItem
     {
         UIController.Instance.OpenItemMenu(this);
     }
+
     public void SetQueue(RecipeQueue queue)
     {
         SetQueue(queue.recipe.GetName(), queue.number, queue.isInfinite);
     }
+
     public void SetQueue(string Name, int Number, bool isInfinite)
     {
         foreach(Recipe curRec in recipies)
@@ -68,7 +72,8 @@ public class Building : MapItem
                 CurrentRecipe = CurrentQueue.recipe.Copy();
             }
         }
-    }   
+    }  
+    
     public void RecipeFinished()
     {
         if (!CurrentQueue.isInfinite)
@@ -86,16 +91,19 @@ public class Building : MapItem
             CurrentRecipe = CurrentQueue.recipe.Copy();
         }
     }
+
     public void CancelQueue()
     {
         CurrentRecipe.CancelProduction();
         CurrentQueue = null;
         CurrentRecipe = null;
     }
+
     public RecipeQueue GetCurrentQueue()
     {
         return CurrentQueue;
     }
+
     public Recipe GetRecipeByName(string name)
     {
         foreach(Recipe recipe in recipies)
@@ -107,10 +115,12 @@ public class Building : MapItem
         }
         return null;
     }
+
     public Recipe[] getRecipies()
     {
         return recipies;
     }
+
     public string GetPriceString()
     {
         string result = string.Empty;
@@ -120,6 +130,7 @@ public class Building : MapItem
         }
         return result;
     }
+
     public Resource[] GetPrice()
     {
         return Cost;
