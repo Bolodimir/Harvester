@@ -13,7 +13,7 @@ public class Recipe
     private float _timeInProduction;
     private float _productionProgress; // [0;1]    
 
-    private bool _productionStarted = false;
+    public bool _productionStarted = false;
     public Recipe(Resource[] input, Resource output, float TTP, Building building)
     {
         Input = new Resource[input.Length];

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildMenu : MonoBehaviour
+public class BuildMenu : AbstractMenu
 {
     UIController Controller;
     [SerializeField] GameObject CardOfBuilding;
@@ -11,7 +11,8 @@ public class BuildMenu : MonoBehaviour
 
     [SerializeField] GameObject BuildingContainer;
 
-    private List<BuildingCard> _cards;    
+    private List<BuildingCard> _cards;
+    private Building _toBuild;
 
     private void Awake()
     {
@@ -33,10 +34,28 @@ public class BuildMenu : MonoBehaviour
         }
         Stats.Instance.StatsChanged += OnStatsChanged;
     }
+
+    public override void Close()
+    {
+        base.Close();
+        view.CancelBuildingMode();
+    }
+
     public void OnBuildButtonClick()
     {
         if (view.IsBuildingMode())
         {
+            foreach (Resource res in _toBuild.GetPrice())
+            {
+                if (!Stats.Instance.Check(res))
+                {
+                    return;
+                }
+            }
+            foreach (Resource res in _toBuild.GetPrice())
+            {
+                Stats.Instance.Withdraw(res);
+            }
             view.ChoosePlaceForBuilding();
         }
         Controller.UIclick();
@@ -52,18 +71,14 @@ public class BuildMenu : MonoBehaviour
     public void OnBuildingPressed(string BuildingName)
     {
         Controller.UIclick();
-        Building newBuilding= model.GetItem(BuildingName).GetComponent<Building>();
-        if (newBuilding == null) return;
-        foreach(Resource res in newBuilding.GetPrice())
+        _toBuild= model.GetItem(BuildingName).GetComponent<Building>();
+        if (_toBuild == null) return;
+        foreach(Resource res in _toBuild.GetPrice())
         {
             if (!Stats.Instance.Check(res))
             {
                 return;
             }
-        }
-        foreach (Resource res in newBuilding.GetPrice())
-        {
-            Stats.Instance.Withdraw(res);
         }
         view.CancelBuildingMode();
         view.InitiateBuildingForPlacing(BuildingName);

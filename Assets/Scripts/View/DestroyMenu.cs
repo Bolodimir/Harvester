@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyMenu : MonoBehaviour
+public class DestroyMenu : AbstractMenu
 {
     UIController Controller;
 

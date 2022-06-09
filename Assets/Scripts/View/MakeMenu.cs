@@ -86,6 +86,6 @@ public class MakeMenu : MonoBehaviour
 
     private void OnStatsChanged()
     {
-        Price.text = _curRecipe.GetInput();
+        if(_curRecipe != null) Price.text = _curRecipe.GetInput();
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceMenu : MonoBehaviour
+public class ResourceMenu : AbstractMenu
 {
     [SerializeField] GameObject ResourceCardPrefab;
     [SerializeField] GameObject ResourceCardContainer;

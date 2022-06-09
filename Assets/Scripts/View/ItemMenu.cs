@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemMenu : MonoBehaviour
+public class ItemMenu : AbstractMenu
 {
     [SerializeField] GameObject RecipeContainer;
     [SerializeField] GameObject RecipeCardPrefab;
@@ -11,6 +11,7 @@ public class ItemMenu : MonoBehaviour
 
     GameObject[] RecipeCardObjects;
     Building CurrentBuilding;
+
     public void UpdateRecipeCards()
     {
         if (RecipeCardObjects != null)
@@ -31,6 +32,7 @@ public class ItemMenu : MonoBehaviour
             RecipeCardObjects[i].GetComponent<RecipeCard>().Initialize(sprite, recipies[i].GetName(), this);
         }
     }
+
     public void SetBuilding(Building building)
     {
         if(CurrentBuilding != null)
@@ -44,11 +46,13 @@ public class ItemMenu : MonoBehaviour
         currentRecipeMenu.SetMenu(null, "No recipe", 0.5f, 0);
         UpdateRecipeCards();
     }
+
     public void OnBackButtonClick()
     {
         UIController.Instance.UIclick();
         UIController.Instance.OpenGeneralMenu();
     }
+
     public void OpenMakeMenuByName(string name) 
     {
         makeMenu.gameObject.SetActive(true);
@@ -58,19 +62,21 @@ public class ItemMenu : MonoBehaviour
         Sprite sprite = SpriteStorage.Instance.GetSpriteByName(name);
         makeMenu.Initialize(sprite, MakeRecipe.GetName(), MakeRecipe.GetInput(), this, MakeRecipe);
     }
+
     public void CancelMakeMenu()
     {
         makeMenu.gameObject.SetActive(false);
         currentRecipeMenu.gameObject.SetActive(true);
     }
+
     public void MakeItem(string name, int number, bool isInfinite)
     {
         CurrentBuilding.SetQueue(name, number, isInfinite);
         CancelMakeMenu();
     }
+
     void OnBuildingChanged(Recipe curRecipe, int QueueNumber)
     {
-        print(CurrentBuilding);
         string Name;
         float Progress;
         int NumberOfItems;

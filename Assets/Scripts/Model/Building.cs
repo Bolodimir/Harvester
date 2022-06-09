@@ -40,6 +40,7 @@ public class Building : MapItem
     {
         if (curRecipe != null)
         {
+            if (!curRecipe._productionStarted) curRecipe.StartProduction();
             curRecipe.UpdateProduction(Time.deltaTime);
             if (CurrentQueue != null)
             {

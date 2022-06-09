@@ -6,12 +6,12 @@ public class UIController : MonoBehaviour
 {
     public static UIController Instance;
     CameraBehaviour MainCamera;
-    [SerializeField] GameObject GeneralMenu;
-    [SerializeField] ItemMenu itemMenu;
-    [SerializeField] GameObject BuildMenu;
-    [SerializeField] GameObject DestroyMenu;
-    [SerializeField] GameObject ResourceMenu;
-    [SerializeField] GameObject ResearchMenu;
+    [SerializeField] MainMenu _generalMenu;
+    [SerializeField] ItemMenu _itemMenu;
+    [SerializeField] BuildMenu _buildMenu;
+    [SerializeField] DestroyMenu _destroyMenu;
+    [SerializeField] ResourceMenu _resourceMenu;
+    [SerializeField] ResearchMenu _researchMenu;
 
     private void Awake()
     {
@@ -24,49 +24,55 @@ public class UIController : MonoBehaviour
     }
     private void CloseAllMenus()
     {
-        GeneralMenu.SetActive(false);
-        itemMenu.gameObject.SetActive(false);
-        BuildMenu.SetActive(false);
-        DestroyMenu.SetActive(false);
-        ResourceMenu.SetActive(false);
-        ResearchMenu.SetActive(false);
+        _generalMenu.Close();
+        _itemMenu.Close();
+        _buildMenu.Close();
+        _destroyMenu.Close();
+        _resourceMenu.Close();
+        _researchMenu.Close();
     }
     public void OpenItemMenu(Building building)
     {
         CloseAllMenus();
-        itemMenu.gameObject.SetActive(true);
-        itemMenu.SetBuilding(building);
+        _itemMenu.gameObject.SetActive(true);
+        _itemMenu.SetBuilding(building);
     }
 
     public void OpenGeneralMenu()
     {
         CloseAllMenus();
-        GeneralMenu.SetActive(true);
+        _generalMenu.Open();
     }
+
     public void OpenBuildMenu()
     {
         CloseAllMenus();
-        BuildMenu.SetActive(true);
+        _buildMenu.Open();
     }
+
     public void OpenDestroyMenu()
     {
         CloseAllMenus();
-        DestroyMenu.SetActive(true);
+        _destroyMenu.Open();
     }
+
     public void OpenResourceMenu()
     {
         CloseAllMenus();
-        ResourceMenu.SetActive(true);
+        _resourceMenu.Open();
     }
+
     public void OpenResearchMenu()
     {
         CloseAllMenus();
-        ResearchMenu.SetActive(true);
+        _researchMenu.Open();
     }
+
     public void NoUIclick()
     {
         MainCamera.UnLockControls();
     }
+
     public void UIclick()
     {
         MainCamera.LockControls();

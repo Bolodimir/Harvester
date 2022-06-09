@@ -32,6 +32,7 @@ public class GridView : MonoBehaviour
         MainCamera = Camera.main.GetComponent<CameraBehaviour>();
         cam = Camera.main;
     }  
+
     public void PlaceObject(Vector2 gridPos, GameObject obj)
     {
         gridPos.y *= -1;
@@ -41,6 +42,7 @@ public class GridView : MonoBehaviour
                                                 placePosition.y);
         obj.transform.rotation = Quaternion.identity;
     }
+
     public void DeleteObject(Vector2 gridPos)
     {
         Vector2 deletePosition = ReferencePoint + gridPos * CellSizeInUnits;
@@ -63,6 +65,7 @@ public class GridView : MonoBehaviour
         }
         
     }
+
     public void DeleteObject(Vector3 deletePosition)
     {
         Vector2 gridPos = FromWorldToGrid(deletePosition);
@@ -90,6 +93,7 @@ public class GridView : MonoBehaviour
         }
 
     }
+
     public void ExpandGrid(Vector2 expansion)
     {
         Field.transform.localScale = new Vector3(Field.transform.localScale.x + Mathf.Abs(expansion.x) * CellSizeInUnits,
@@ -105,19 +109,23 @@ public class GridView : MonoBehaviour
 
         CalculateReferencePoint();
     }
+
     private void CalculateReferencePoint()
     {
         ReferencePoint = new Vector2(Field.transform.position.x - Width / 2,
                                      Field.transform.position.z + Height / 2);
     }
+
     public float GetSize()
     {
         return CellSizeInUnits;
     }
+
     private Vector3 FromGridToWorld(Vector2 pos)
     {
         return Vector3.zero;
     }
+
     private Vector2 FromWorldToGrid(Vector3 pos)
     {
         pos.x -= ReferencePoint.x;
@@ -126,6 +134,7 @@ public class GridView : MonoBehaviour
         pos.z = pos.z * -1;
         return new Vector2(pos.x, pos.z);
     }
+
 
     void Update()
     {
@@ -137,13 +146,15 @@ public class GridView : MonoBehaviour
         {
             DestroyModeUpdate();
         }
-    }   
+    }  
+    
     //DestroyMode
     public void InitiateDestroyMode()
     {
         DestroyMode = true;
         MainCamera.LockTouch();
     }
+
     private void DestroyModeUpdate()
     {
         if(Input.GetTouch(0).phase == TouchPhase.Began)
@@ -176,6 +187,7 @@ public class GridView : MonoBehaviour
             }
         }
     } 
+
     public void ChooseBuildingForDestroying()
     {
         if(ToDestroy != null)
@@ -185,6 +197,7 @@ public class GridView : MonoBehaviour
         }
         MainCamera.UnLockTouch();
     }
+
     public void CancelDestroyMode()
     {
         if(ToDestroy != null)
@@ -194,7 +207,8 @@ public class GridView : MonoBehaviour
         DestroyMode = false;
         ToDestroy = null;
         MainCamera.UnLockTouch();
-    }    
+    }   
+    
     //BuildingMode
     public void InitiateBuildingForPlacing(string Name)
     {
@@ -214,6 +228,7 @@ public class GridView : MonoBehaviour
             ChangeBuildingColor(ToBuild, Color.red);
         }
     }
+
     private void BuildModeUpdate()
     {
         if (Input.GetTouch(0).phase == TouchPhase.Began)
@@ -278,10 +293,12 @@ public class GridView : MonoBehaviour
             MovingBuilding = false;
         }
     }
+
     private void ChangeBuildingColor(GameObject building, Color color)
     {
         building.GetComponentInChildren<MeshRenderer>().material.SetColor("_Color",color);
     }
+
     public bool ChoosePlaceForBuilding()
     {
         MovingBuilding = false;
@@ -296,6 +313,7 @@ public class GridView : MonoBehaviour
         }
         return false;
     }
+
     public void CancelBuildingMode()
     {
         MovingBuilding = false;
@@ -303,6 +321,7 @@ public class GridView : MonoBehaviour
         Destroy(ToBuild);
         BuildingMode = false;
     }
+
     public bool IsBuildingMode()
     {
         return BuildingMode;

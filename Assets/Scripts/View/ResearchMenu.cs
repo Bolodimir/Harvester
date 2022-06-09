@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResearchMenu : MonoBehaviour
+public class ResearchMenu : AbstractMenu
 {
     private UIController controller;
 

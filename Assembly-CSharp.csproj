@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\Model\Resource.cs" />
     <Compile Include="Assets\Scripts\View\BuildingCard.cs" />
     <Compile Include="Assets\Scripts\Model\GridModel.cs" />
+    <Compile Include="Assets\Scripts\View\AbstractMenu.cs" />
     <Compile Include="Assets\Scripts\Diagnostics.cs" />
     <Compile Include="Assets\Scripts\View\GridView.cs" />
     <Compile Include="Assets\Scripts\View\BuildMenu.cs" />
@@ -71,7 +72,7 @@
     <Compile Include="Assets\Scripts\View\DestroyMenu.cs" />
     <Compile Include="Assets\Scripts\View\UIController.cs" />
     <Compile Include="Assets\Scripts\View\ResourceCard.cs" />
-    <Compile Include="Assets\Scripts\View\GeneralMenu.cs" />
+    <Compile Include="Assets\Scripts\View\MainMenu.cs" />
     <Compile Include="Assets\Scripts\View\ResourceMenu.cs" />
     <Compile Include="Assets\Scripts\Model\Stats.cs" />
     <Compile Include="Assets\Scripts\Model\Recipe.cs" />
