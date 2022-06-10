@@ -12,6 +12,7 @@ public class UIController : MonoBehaviour
     [SerializeField] DestroyMenu _destroyMenu;
     [SerializeField] ResourceMenu _resourceMenu;
     [SerializeField] ResearchMenu _researchMenu;
+    [SerializeField] DebugMenu _debugMenu;
 
     private void Awake()
     {
@@ -30,6 +31,7 @@ public class UIController : MonoBehaviour
         _destroyMenu.Close();
         _resourceMenu.Close();
         _researchMenu.Close();
+        _debugMenu.Close();
     }
     public void OpenItemMenu(Building building)
     {
@@ -66,6 +68,12 @@ public class UIController : MonoBehaviour
     {
         CloseAllMenus();
         _researchMenu.Open();
+    }
+
+    public void OpenDebugMenu()
+    {
+        CloseAllMenus();
+        _debugMenu.Open();
     }
 
     public void NoUIclick()

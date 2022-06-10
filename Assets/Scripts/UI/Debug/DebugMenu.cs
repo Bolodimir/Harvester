@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class DebugMenu : AbstractMenu
 {
-    // Start is called before the first frame update
-    void Start()
+    public void AddResourcesButtonClicked()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CleanFieldButtonClicked()
     {
-        
+
     }
 }

@@ -45,6 +45,7 @@ public class Stats : MonoBehaviour
         }
         return false;
     }
+
     public bool Deposit(Resource value) // if has mentioned resource category adds number to it
     {
         if (value.Number <= 0) return false;
@@ -60,6 +61,7 @@ public class Stats : MonoBehaviour
         }
         return false;
     }
+
     public void AddResource(Resource value) // adds resource category
     {
         Resource[] newResources = new Resource[resources.Length + 1];
@@ -71,6 +73,7 @@ public class Stats : MonoBehaviour
         resources = newResources;
         StatsChanged?.Invoke();
     }
+
     public bool Check(Resource value) // Check if has enough resources
     {
         if (value.Number <= 0) return true;
@@ -91,10 +94,12 @@ public class Stats : MonoBehaviour
         }
         return false;
     }
+
     public Resource[] GetResources()
     {
         return resources;
     }
+
     public Resource GetOneResource(Resource value)
     {
         for (int i = 0; i < resources.Length; i++)

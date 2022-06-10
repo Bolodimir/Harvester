@@ -91,7 +91,8 @@
     <Compile Include="Assets\Scripts\Core\RaycastTarget.cs" />
     <Compile Include="Assets\Scripts\Core\CameraBehaviour.cs" />
     <Compile Include="Assets\Scripts\Utilites\FramesCounter.cs" />
-    <Compile Include="Assets\Scripts\UI\DebugMenu.cs" />
+    <Compile Include="Assets\Scripts\UI\Debug\DebugMenu.cs" />
+    <Compile Include="Assets\Scripts\UI\Debug\AddResourcesMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
