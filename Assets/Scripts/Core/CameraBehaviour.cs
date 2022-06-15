@@ -12,8 +12,8 @@ public class CameraBehaviour : MonoBehaviour
     [SerializeField] private float MaxCameraSpeed;
     [SerializeField] private float MaxHeight;
     [SerializeField] private float MinHeight;
-    [SerializeField] private Vector2 FirstBorderPoint;
-    [SerializeField] private Vector2 SecondBorderPoint;
+    [SerializeField] private Transform FirstBorderPoint;
+    [SerializeField] private Transform SecondBorderPoint;
 
     private bool _touchLocked;
     private bool _controlsLocked;
@@ -41,80 +41,83 @@ public class CameraBehaviour : MonoBehaviour
 
         if (_controlsLocked) return;
 
-        if(Input.touchCount == 1)
+        if(Input.touchCount == 1) CameraMove();
+        if (Input.touchCount == 2) PinchZoom();
+    }
+
+    private void CameraMove()
+    {
+        Touch newTouch = Input.GetTouch(0);
+        if (newTouch.phase == TouchPhase.Began)
         {
-            Touch newTouch = Input.GetTouch(0);
-            if (newTouch.phase == TouchPhase.Began)
-            {
-                _currentCameraMoveDir = Vector3.zero;
-                _currentCameraSpeed = 0;
-                hasMoved = false;
-            }
-            if (newTouch.phase == TouchPhase.Moved)
-            {
-                hasMoved = true;
-                if (!Equals(oldTouch, newTouch))
-                {
-                    Vector3 WorldPointDelta = GetWorldPointDeltaFromTouch(Input.GetTouch(0));
-                    MainCamera.transform.position += WorldPointDelta;
-                    _currentCameraMoveDir = WorldPointDelta;
-                    ClampCameraInBorders();
-
-                    _lastTouchUpdateTime = Time.time;
-
-                }               
-            }
-            if (newTouch.phase == TouchPhase.Ended)
-            {
-                if(!hasMoved)
-                {
-                    if (!_touchLocked)
-                    {
-                        Ray FromCamera = MainCamera.ScreenPointToRay(newTouch.position);
-                        RaycastHit hit = new RaycastHit();
-                        if (Physics.Raycast(FromCamera, out hit))
-                        {
-                            hit.transform.GetComponent<RaycastTarget>().OnPressed();
-                        }
-                    }                    
-                }
-                else
-                { 
-                    _currentCameraSpeed = _currentCameraMoveDir.magnitude /(Time.time - _lastTouchUpdateTime);
-                    _currentCameraSpeed = Mathf.Clamp(_currentCameraSpeed, 0, MaxCameraSpeed);
-                    _currentCameraMoveDir = _currentCameraMoveDir.normalized;
-                }
-            }
-            oldTouch = newTouch;
+            _currentCameraMoveDir = Vector3.zero;
+            _currentCameraSpeed = 0;
+            hasMoved = false;
         }
-
-        if (Input.touchCount == 2)
+        if (newTouch.phase == TouchPhase.Moved)
         {
-            if(Input.touches[1].phase == TouchPhase.Began)
+            hasMoved = true;
+            if (!Equals(oldTouch, newTouch))
             {
-                oldTouch = Input.touches[0];
-                
+                Vector3 WorldPointDelta = GetWorldPointDeltaFromTouch(Input.GetTouch(0));
+                MainCamera.transform.position += WorldPointDelta;
+                _currentCameraMoveDir = WorldPointDelta;
+                ClampCameraInBorders();
+
+                _lastTouchUpdateTime = Time.time;
+
             }
-            if (!Equals(Input.touches[0], oldTouch))
+        }
+        if (newTouch.phase == TouchPhase.Ended)
+        {
+            if (!hasMoved)
             {
-                if(Input.touches[0].phase == TouchPhase.Moved || Input.touches[1].phase == TouchPhase.Moved)
+                if (!_touchLocked)
                 {
-                    Vector2 pos0 = Input.touches[0].position;
-                    Vector2 pos1 = Input.touches[1].position;
-                    Vector2 pos0b = Input.touches[0].position - Input.touches[0].deltaPosition;
-                    Vector2 pos1b = Input.touches[1].position - Input.touches[1].deltaPosition;
-
-                    float zoom = Vector2.Distance(pos0b, pos1b) / Vector2.Distance(pos0, pos1);
-
-                    MainCamera.transform.position = new Vector3(MainCamera.transform.position.x,
-                                                                Mathf.Clamp(MainCamera.transform.position.y * zoom, MinHeight, MaxHeight),
-                                                                MainCamera.transform.position.z);
+                    Ray FromCamera = MainCamera.ScreenPointToRay(newTouch.position);
+                    RaycastHit hit = new RaycastHit();
+                    if (Physics.Raycast(FromCamera, out hit))
+                    {
+                        hit.transform.GetComponent<RaycastTarget>().OnPressed();
+                    }
                 }
-                oldTouch = Input.touches[0];
             }
-            if(Input.touches[1].phase == TouchPhase.Ended)
+            else
             {
+                _currentCameraSpeed = _currentCameraMoveDir.magnitude / (Time.time - _lastTouchUpdateTime);
+                _currentCameraSpeed = Mathf.Clamp(_currentCameraSpeed, 0, MaxCameraSpeed);
+                _currentCameraMoveDir = _currentCameraMoveDir.normalized;
             }
+        }
+        oldTouch = newTouch;
+    }
+
+    private void PinchZoom()
+    {
+        if (Input.touches[1].phase == TouchPhase.Began)
+        {
+            oldTouch = Input.touches[0];
+
+        }
+        if (!Equals(Input.touches[0], oldTouch))
+        {
+            if (Input.touches[0].phase == TouchPhase.Moved || Input.touches[1].phase == TouchPhase.Moved)
+            {
+                Vector2 pos0 = Input.touches[0].position;
+                Vector2 pos1 = Input.touches[1].position;
+                Vector2 pos0b = Input.touches[0].position - Input.touches[0].deltaPosition;
+                Vector2 pos1b = Input.touches[1].position - Input.touches[1].deltaPosition;
+
+                float zoom = Vector2.Distance(pos0b, pos1b) / Vector2.Distance(pos0, pos1);
+
+                MainCamera.transform.position = new Vector3(MainCamera.transform.position.x,
+                                                            Mathf.Clamp(MainCamera.transform.position.y * zoom, MinHeight, MaxHeight),
+                                                            MainCamera.transform.position.z);
+            }
+            oldTouch = Input.touches[0];
+        }
+        if (Input.touches[1].phase == TouchPhase.Ended)
+        {
         }
     }
 
@@ -130,9 +133,9 @@ public class CameraBehaviour : MonoBehaviour
     private void ClampCameraInBorders()
     {
         MainCamera.transform.position = new Vector3(
-                                        Mathf.Clamp(MainCamera.transform.position.x, FirstBorderPoint.x, SecondBorderPoint.x),
+                                        Mathf.Clamp(MainCamera.transform.position.x, FirstBorderPoint.position.x, SecondBorderPoint.position.x),
                                         MainCamera.transform.position.y,
-                                        Mathf.Clamp(MainCamera.transform.position.z, FirstBorderPoint.y, SecondBorderPoint.y)
+                                        Mathf.Clamp(MainCamera.transform.position.z, FirstBorderPoint.position.z, SecondBorderPoint.position.z)
                                         );
     }
 
