@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\UI\ItemMenu.cs" />
     <Compile Include="Assets\Scripts\UI\DestroyMenu.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
+    <Compile Include="Assets\Scripts\UI\Debug\AddResourcesMenu.cs" />
     <Compile Include="Assets\Scripts\UI\ResourceCard.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Core\ResearchStats.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Assets\Scripts\Core\Recipe.cs" />
     <Compile Include="Assets\Scripts\UI\ResearchCard.cs" />
     <Compile Include="Assets\Scripts\Core\Research.cs" />
+    <Compile Include="Assets\Scripts\UI\Debug\DebugMenu.cs" />
     <Compile Include="Assets\Scripts\UI\CurrentRecipeMenu.cs" />
     <Compile Include="Assets\Scripts\UI\UICatcher.cs" />
     <Compile Include="Assets\Scripts\Core\Building.cs" />
@@ -91,8 +93,6 @@
     <Compile Include="Assets\Scripts\Core\RaycastTarget.cs" />
     <Compile Include="Assets\Scripts\Core\CameraBehaviour.cs" />
     <Compile Include="Assets\Scripts\Utilites\FramesCounter.cs" />
-    <Compile Include="Assets\Scripts\UI\Debug\DebugMenu.cs" />
-    <Compile Include="Assets\Scripts\UI\Debug\AddResourcesMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
