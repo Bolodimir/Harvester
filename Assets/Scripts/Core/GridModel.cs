@@ -1,19 +1,17 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GridModel : MonoBehaviour
 {
-    [SerializeField] GridView view;
-    [SerializeField] GameObject[] MapItems;
-    [SerializeField] int NonBuildings;  // Buildings are put after non-buildings
-                                        // Number of non-buildings is specified
-    [SerializeField] float RandomResourcePlacingPeriod;
+    [SerializeField] private GridView view;
+    [SerializeField] private GameObject[] MapItems;
+    [SerializeField] private int NonBuildings;  // Buildings are put after non-buildings
+                                                // Number of non-buildings is specified
+    [SerializeField] private float[] _resourcesWeights;
+    [SerializeField] private float RandomResourcePlacingPeriod;
 
-    float LastPlaced;
-    int NumberOfObjectsOnTheMap;
-    MapItem[,] Map;
+    private float LastPlaced;
+    private int NumberOfObjectsOnTheMap;
+    private MapItem[,] Map;
 
     void Start()
     {
@@ -30,20 +28,31 @@ public class GridModel : MonoBehaviour
             BuildRandomResource();
         }
     }
+
     private void BuildRandomResource() 
     {
         if (NumberOfObjectsOnTheMap >= Map.GetLength(0) * Map.GetLength(1)) return; // if map is full
 
-        System.Random r = new System.Random();
-        int ResourceIndex = r.Next(0, NonBuildings);
+        float weightsSum = 0;
+        foreach (float weight in _resourcesWeights) weightsSum += weight;
+        float randomWeight = Random.Range(0, weightsSum);
+        int randomIndex = 0;
+        for(int i = 0; i < NonBuildings; i++)
+        {
+            randomWeight -= _resourcesWeights[i];
+            if (randomWeight <= 0)
+            {
+                randomIndex = i;
+                break;
+            }
+        }
 
-        Vector2 gridPos = new Vector2(r.Next(0, Map.GetLength(0)), r.Next(0, Map.GetLength(1)));
+        Vector2 gridPos = new Vector2(Random.Range(0, Map.GetLength(0)), Random.Range(0, Map.GetLength(1)));
         while(Map[(int)gridPos.x, (int)gridPos.y] != null)
         {
-            gridPos = new Vector2(r.Next(0, Map.GetLength(0)), r.Next(0, Map.GetLength(1)));
+            gridPos = new Vector2(Random.Range(0, Map.GetLength(0)), Random.Range(0, Map.GetLength(1)));
         }
-        //print(gridPos);
-        BuildItem(ResourceIndex, gridPos);
+        BuildItem(randomIndex, gridPos);
         LastPlaced = Time.time;
     }
 
@@ -52,6 +61,7 @@ public class GridModel : MonoBehaviour
         if (Map[(int)position.x, (int)position.y] == null) return true;
         return false;
     }
+
     public void BuildItem(string Name, Vector2 pos)
     {
         for(int i = 0; i < MapItems.Length; i++)
@@ -62,6 +72,7 @@ public class GridModel : MonoBehaviour
             }
         }
     }
+
     public void BuildItem(int index, Vector2 pos)
     {
         GameObject newBuild = Instantiate(MapItems[index]);
@@ -75,6 +86,7 @@ public class GridModel : MonoBehaviour
         }
         NumberOfObjectsOnTheMap++;
     }
+
     public GameObject GetItem(string Name)
     {
         for (int i = 0; i < MapItems.Length; i++)
@@ -86,11 +98,13 @@ public class GridModel : MonoBehaviour
         }
         return null;
     }
+
     public bool WithinBoundaries(Vector2 gridPos)
     {
         if (gridPos.x >= 0 && gridPos.x < Map.GetLength(0) && gridPos.y >= 0 && gridPos.y < Map.GetLength(1)) return true;
         else return false;
     }
+
     public void ExpandGrid(Vector2 expansion)
     {
         view.ExpandGrid(expansion);
@@ -111,6 +125,7 @@ public class GridModel : MonoBehaviour
         }
         Map = newMap;
     }
+
     public Building[] GetBuildings()
     {
         Building[] result = new Building[MapItems.Length - NonBuildings];
@@ -120,6 +135,7 @@ public class GridModel : MonoBehaviour
         }
         return result;
     }
+
     public void DestroyBuilding(Vector2 gridPos)
     {
         Map[(int)gridPos.x, (int)gridPos.y] = null;

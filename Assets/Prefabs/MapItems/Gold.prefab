@@ -1084,7 +1084,7 @@ MonoBehaviour:
   HP: 3
   Loot:
     Name: Gold Ore
-    Number: 1
+    Number: 3
 --- !u!1 &6519681411319684991
 GameObject:
   m_ObjectHideFlags: 0
