@@ -69,7 +69,7 @@ public class GridView : MonoBehaviour
     public void DeleteObject(Vector3 deletePosition)
     {
         Vector2 gridPos = FromWorldToGrid(deletePosition);
-        Collider[] items = Physics.OverlapSphere((Vector3)deletePosition, CellSizeInUnits * 0.375f);
+        Collider[] items = Physics.OverlapSphere((Vector3)deletePosition, CellSizeInUnits * 0.375f,64);
 
         if (items.Length == 1)
         {

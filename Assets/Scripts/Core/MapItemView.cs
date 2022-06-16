@@ -7,7 +7,7 @@ public class MapItemView : RaycastTarget
     [SerializeField]MapItem model;
     bool IsToBuild = true;
     private UIController controller;
-    void Start()
+    public virtual void Start()
     {
         controller = UIController.Instance;
     }
@@ -19,14 +19,7 @@ public class MapItemView : RaycastTarget
             model.Action();
         }
     }
-    public void Select()
-    {
 
-    }
-    public void DeSelect()
-    {
-
-    }
     public void ChangeIsToBuild()
     {
         IsToBuild = false;

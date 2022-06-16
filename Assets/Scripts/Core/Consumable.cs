@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Consumable : MapItem
 {
-    [SerializeField] int HP;
-    [SerializeField] Resource Loot;
+    [SerializeField] private int HP;
+    [SerializeField] private Resource Loot;
 
-    GridView view;
+    private GridView view;
+
     public void GetDamage()
     {
         HP--;
@@ -20,10 +21,12 @@ public class Consumable : MapItem
             view.DeleteObject(transform.position);
         }
     }
+
     public override void Action()
     {
         GetDamage();
     }
+
     public void SetView(GridView view)
     {
         this.view = view;
