@@ -12,7 +12,7 @@ public class Building : MapItem
     private RecipeQueue CurrentQueue;
     private Recipe curRecipe;
 
-    Recipe CurrentRecipe
+    public Recipe CurrentRecipe
     {
         get
         {

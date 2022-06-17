@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class MapItemView : RaycastTarget
 {
-    [SerializeField]MapItem model;
-    bool IsToBuild = true;
+    [SerializeField] protected MapItem model;
+
+    private bool IsToBuild = true;
     private UIController controller;
+
     public virtual void Start()
     {
         controller = UIController.Instance;
