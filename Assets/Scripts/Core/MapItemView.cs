@@ -5,6 +5,7 @@ using UnityEngine;
 public class MapItemView : RaycastTarget
 {
     [SerializeField] protected MapItem model;
+    [SerializeField] private GameObject _popUpPrefab;
 
     private bool IsToBuild = true;
     private UIController controller;
@@ -25,5 +26,11 @@ public class MapItemView : RaycastTarget
     public void ChangeIsToBuild()
     {
         IsToBuild = false;
+    }
+
+    public void CreateResourcePopUp(Resource resource)
+    {
+        var popUp = Instantiate(_popUpPrefab, transform.position, transform.rotation).GetComponent<PopUp>();
+        popUp.Init(resource);
     }
 }

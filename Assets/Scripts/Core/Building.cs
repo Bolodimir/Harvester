@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Building : MapItem
 {
     public delegate void BuildingEventHandler(Recipe curRecipe, int QueueNumber);
     public event BuildingEventHandler BuildingChanged;
+
+    public event Action<Resource> OutputProduced;
 
     [SerializeField] private Resource[] Cost;
     [SerializeField] private Recipe[] recipies;
@@ -78,6 +81,7 @@ public class Building : MapItem
     
     public void RecipeFinished()
     {
+        OutputProduced?.Invoke(CurrentRecipe.Output);
         if (!CurrentQueue.isInfinite)
         {
             CurrentQueue.number--;

@@ -10,7 +10,7 @@ public class BuildingView : MapItemView
     private void Start()
     {
         if (model is Building) ((Building)model).BuildingChanged += OnBuildingChanged;
-
+        if (model is Building) ((Building)model).OutputProduced += (resource)=> CreateResourcePopUp(resource);
         _progressUI.SetActive(false);
     }
 

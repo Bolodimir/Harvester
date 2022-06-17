@@ -546,6 +546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 6446627189212434283}
+  _popUpPrefab: {fileID: 9037437346012319502, guid: 8bd9af0cdcc22184ba4336be24b4b76c, type: 3}
   _progressUI: {fileID: 5349291849552869326}
   _fill: {fileID: 8778545841695434829}
   _resourceIcon: {fileID: 673938555703137729}

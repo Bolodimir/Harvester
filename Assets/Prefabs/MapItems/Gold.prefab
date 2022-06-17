@@ -1081,6 +1081,7 @@ MonoBehaviour:
   Name: Gold
   Description: 
   Icon: {fileID: 0}
+  _consumableView: {fileID: 263350613839610559}
   HP: 3
   Loot:
     Name: Gold Ore
@@ -1145,6 +1146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 6519681410046389676}
+  _popUpPrefab: {fileID: 9037437346012319502, guid: 8bd9af0cdcc22184ba4336be24b4b76c, type: 3}
   _stages:
   - {fileID: 8735354662207939460}
   - {fileID: 8076492418075647904}

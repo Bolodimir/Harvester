@@ -263,6 +263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 4440953679385367597}
+  _popUpPrefab: {fileID: 9037437346012319502, guid: 8bd9af0cdcc22184ba4336be24b4b76c, type: 3}
   _progressUI: {fileID: 6697191859320186818}
   _fill: {fileID: 2535227854850180321}
   _resourceIcon: {fileID: 2595930386975479466}

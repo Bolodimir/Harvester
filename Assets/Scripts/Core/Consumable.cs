@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Consumable : MapItem
 {
+    [SerializeField] private ConsumableView _consumableView;
     [SerializeField] private int HP;
     [SerializeField] private Resource Loot;
 
@@ -18,6 +19,7 @@ public class Consumable : MapItem
             {
                 Stats.Instance.AddResource(Loot);
             }
+            _consumableView.CreateResourcePopUp(Loot);
             view.DeleteObject(transform.position);
         }
     }

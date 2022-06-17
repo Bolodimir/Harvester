@@ -141,4 +141,10 @@ public class GridModel : MonoBehaviour
         Map[(int)gridPos.x, (int)gridPos.y] = null;
         NumberOfObjectsOnTheMap--;
     }
+
+    public float GetSpawnProgress()
+    {
+        float speedModifier = 1 + Stats.Instance.Researches.ResourceSpawnFrequency.GetValue();
+        return (Time.time - LastPlaced) / (RandomResourcePlacingPeriod / speedModifier);
+    }
 }

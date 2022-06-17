@@ -612,6 +612,7 @@ MonoBehaviour:
   Name: Tree
   Description: 
   Icon: {fileID: 0}
+  _consumableView: {fileID: 761856924629382678}
   HP: 3
   Loot:
     Name: Wood
@@ -678,6 +679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 6519681410046389676}
+  _popUpPrefab: {fileID: 9037437346012319502, guid: 8bd9af0cdcc22184ba4336be24b4b76c, type: 3}
   _stages:
   - {fileID: 4417532225213125084}
   - {fileID: 4347453109241459274}
