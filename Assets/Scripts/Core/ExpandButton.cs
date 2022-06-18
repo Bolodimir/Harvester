@@ -16,6 +16,11 @@ public class ExpandButton : RaycastTarget
 
     public override void OnPressed()
     {
+        UIController.Instance.ExpandButtonPressed(this);              
+    }
+
+    public void Expand()
+    {
         if (Stats.Instance.Check(ExpandPrice))
         {
             Stats.Instance.Withdraw(ExpandPrice);
@@ -26,7 +31,7 @@ public class ExpandButton : RaycastTarget
             model.ExpandGrid(ExpandDirection);
             MoveButton(ExpandDirection);
             MoveBorderPoints(ExpandDirection);
-        }        
+        }
     }
 
     public void OnNeighborExpanded(Vector2 Expansion)

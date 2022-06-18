@@ -6,7 +6,6 @@ public class UIController : MonoBehaviour
 {
     public static UIController Instance;
 
-    CameraBehaviour MainCamera;
     [Header("Menus")]
     [SerializeField] private MainMenu _generalMenu;
     [SerializeField] private ItemMenu _itemMenu;
@@ -16,8 +15,13 @@ public class UIController : MonoBehaviour
     [SerializeField] private ResearchMenu _researchMenu;
     [SerializeField] private DebugMenu _debugMenu;
     [SerializeField] private GameObject _castlePopUp;
+    [SerializeField] private GameObject _expansionPopUp;
     [Header("Components")]
     [SerializeField] private GridModel _gridModel;
+
+    private CameraBehaviour MainCamera;
+
+    private ExpandButton _buttonToExpand;
 
     private void Awake()
     {
@@ -100,5 +104,24 @@ public class UIController : MonoBehaviour
     public void CloseCastlePopUp()
     {
         _castlePopUp.SetActive(false);
+    }
+
+    public void ExpandButtonPressed(ExpandButton button)
+    {
+        _buttonToExpand = button;
+        _expansionPopUp.SetActive(true);
+    }
+
+    public void ConfirmExpansion()
+    {
+        _buttonToExpand.Expand();
+        _expansionPopUp.SetActive(false);
+        _buttonToExpand = null;
+    }
+
+    public void CancelExpansion()
+    {
+        _expansionPopUp.SetActive(false);
+        _buttonToExpand = null;
     }
 }
