@@ -66,13 +66,16 @@
     <Compile Include="Assets\Scripts\UI\SpriteStorage.cs" />
     <Compile Include="Assets\Scripts\UI\RecipeCard.cs" />
     <Compile Include="Assets\Scripts\Core\Consumable.cs" />
+    <Compile Include="Assets\Scripts\UI\PopUp.cs" />
     <Compile Include="Assets\Scripts\Core\MapItemView.cs" />
     <Compile Include="Assets\Scripts\UI\ItemMenu.cs" />
+    <Compile Include="Assets\Scripts\Core\BuildingView.cs" />
     <Compile Include="Assets\Scripts\UI\DestroyMenu.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
     <Compile Include="Assets\Scripts\UI\Debug\AddResourcesMenu.cs" />
     <Compile Include="Assets\Scripts\UI\ResourceCard.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
+    <Compile Include="Assets\Scripts\UI\Billboard.cs" />
     <Compile Include="Assets\Scripts\Core\ResearchStats.cs" />
     <Compile Include="Assets\Scripts\UI\ResourceMenu.cs" />
     <Compile Include="Assets\Scripts\Core\ConsumableView.cs" />
@@ -86,6 +89,7 @@
     <Compile Include="Assets\Scripts\Core\Building.cs" />
     <Compile Include="Assets\Scripts\UI\MakeMenu.cs" />
     <Compile Include="Assets\Scripts\Core\MapItem.cs" />
+    <Compile Include="Assets\Scripts\UI\SpawnSllider.cs" />
     <Compile Include="Assets\Scripts\Core\RecipeQueue.cs" />
     <Compile Include="Assets\Scripts\UI\BackgroundCatcher.cs" />
     <Compile Include="Assets\Scripts\UI\ResearchMenu.cs" />
@@ -94,10 +98,6 @@
     <Compile Include="Assets\Scripts\Core\RaycastTarget.cs" />
     <Compile Include="Assets\Scripts\Core\CameraBehaviour.cs" />
     <Compile Include="Assets\Scripts\Utilites\FramesCounter.cs" />
-    <Compile Include="Assets\Scripts\UI\Billboard.cs" />
-    <Compile Include="Assets\Scripts\Core\BuildingView.cs" />
-    <Compile Include="Assets\Scripts\UI\SpawnSllider.cs" />
-    <Compile Include="Assets\Scripts\UI\PopUp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

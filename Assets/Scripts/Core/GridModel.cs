@@ -1,7 +1,10 @@
 using UnityEngine;
+using System;
 
 public class GridModel : MonoBehaviour
 {
+    public Action CastleBuilt;
+
     [SerializeField] private GridView view;
     [SerializeField] private GameObject[] MapItems;
     [SerializeField] private int NonBuildings;  // Buildings are put after non-buildings
@@ -35,7 +38,7 @@ public class GridModel : MonoBehaviour
 
         float weightsSum = 0;
         foreach (float weight in _resourcesWeights) weightsSum += weight;
-        float randomWeight = Random.Range(0, weightsSum);
+        float randomWeight = UnityEngine.Random.Range(0, weightsSum);
         int randomIndex = 0;
         for(int i = 0; i < NonBuildings; i++)
         {
@@ -47,10 +50,10 @@ public class GridModel : MonoBehaviour
             }
         }
 
-        Vector2 gridPos = new Vector2(Random.Range(0, Map.GetLength(0)), Random.Range(0, Map.GetLength(1)));
+        Vector2 gridPos = new Vector2(UnityEngine.Random.Range(0, Map.GetLength(0)), UnityEngine.Random.Range(0, Map.GetLength(1)));
         while(Map[(int)gridPos.x, (int)gridPos.y] != null)
         {
-            gridPos = new Vector2(Random.Range(0, Map.GetLength(0)), Random.Range(0, Map.GetLength(1)));
+            gridPos = new Vector2(UnityEngine.Random.Range(0, Map.GetLength(0)), UnityEngine.Random.Range(0, Map.GetLength(1)));
         }
         BuildItem(randomIndex, gridPos);
         LastPlaced = Time.time;
@@ -85,6 +88,11 @@ public class GridModel : MonoBehaviour
             res.SetView(view);
         }
         NumberOfObjectsOnTheMap++;
+
+        if(newBuild.GetComponent<MapItem>().Name == Constants.CastleName)
+        {
+            CastleBuilt?.Invoke();
+        }
     }
 
     public GameObject GetItem(string Name)

@@ -5,14 +5,19 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
     public static UIController Instance;
+
     CameraBehaviour MainCamera;
-    [SerializeField] MainMenu _generalMenu;
-    [SerializeField] ItemMenu _itemMenu;
-    [SerializeField] BuildMenu _buildMenu;
-    [SerializeField] DestroyMenu _destroyMenu;
-    [SerializeField] ResourceMenu _resourceMenu;
-    [SerializeField] ResearchMenu _researchMenu;
-    [SerializeField] DebugMenu _debugMenu;
+    [Header("Menus")]
+    [SerializeField] private MainMenu _generalMenu;
+    [SerializeField] private ItemMenu _itemMenu;
+    [SerializeField] private BuildMenu _buildMenu;
+    [SerializeField] private DestroyMenu _destroyMenu;
+    [SerializeField] private ResourceMenu _resourceMenu;
+    [SerializeField] private ResearchMenu _researchMenu;
+    [SerializeField] private DebugMenu _debugMenu;
+    [SerializeField] private GameObject _castlePopUp;
+    [Header("Components")]
+    [SerializeField] private GridModel _gridModel;
 
     private void Awake()
     {
@@ -22,8 +27,9 @@ public class UIController : MonoBehaviour
     {
         OpenGeneralMenu();
         MainCamera = Camera.main.gameObject.GetComponent<CameraBehaviour>();
+        _gridModel.CastleBuilt += OpenCastlePopUp;
     }
-    private void CloseAllMenus()
+    public void CloseAllMenus()
     {
         _generalMenu.Close();
         _itemMenu.Close();
@@ -85,4 +91,14 @@ public class UIController : MonoBehaviour
     {
         MainCamera.LockControls();
     } 
+
+    public void OpenCastlePopUp()
+    {
+        _castlePopUp.SetActive(true);
+    }
+
+    public void CloseCastlePopUp()
+    {
+        _castlePopUp.SetActive(false);
+    }
 }
